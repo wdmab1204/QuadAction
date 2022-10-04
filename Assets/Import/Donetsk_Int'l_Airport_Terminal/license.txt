@@ -1,0 +1,11 @@
+Model Information:
+* title:	Donetsk Int'l Airport Terminal
+* source:	https://sketchfab.com/3d-models/donetsk-intl-airport-terminal-268bc119d57b45dabaead5ad1a7f91e5
+* author:	Matthew Schroyer (https://sketchfab.com/mschroyer)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Donetsk Int'l Airport Terminal" (https://sketchfab.com/3d-models/donetsk-intl-airport-terminal-268bc119d57b45dabaead5ad1a7f91e5) by Matthew Schroyer (https://sketchfab.com/mschroyer) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
