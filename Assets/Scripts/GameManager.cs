@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     public void AttackToCha(Character attacker, Character target)
     {
+        Debug.Log("I hurt..!" + name);
+
         int target_hp = target.GetHp();
         target_hp -= attacker.GetATK();
         target.SetHp(target_hp);

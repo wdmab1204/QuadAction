@@ -8,17 +8,37 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     private Character target;
-    public Character owner;
+    private Collider collider;
+    public Player owner;
+
+
+    private void Awake()
+    {
+        collider = GetComponent<Collider>();
+    }
+
+    private void Start()
+    {
+        owner = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        target = other.gameObject.GetComponent<Character>();
+        if (!CheckAttackState(owner.stateType)) return;
 
-        GameManager.Instance.AttackToCha(owner, target);
+        target = other.gameObject.GetComponent<Character>();
+        if (target != null)
+            GameManager.Instance.AttackToCha(owner, target);
     }
 
     private void OnTriggerExit(Collider other)
     {
         
+    }
+
+    bool CheckAttackState(StateType currentStateType)
+    {
+        if (currentStateType == StateType.attack) return true;
+        else return false;
     }
 }

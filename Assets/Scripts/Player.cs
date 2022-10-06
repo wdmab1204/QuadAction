@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum StateType { none, idle, move, attack };
+
 public class Player : Character
 {
     #region Singleton
@@ -35,6 +37,7 @@ public class Player : Character
     #endregion
 
     [SerializeField] private Rigidbody rig;
+    public StateType stateType;
 
     #region Movement
     public int speed;
@@ -50,6 +53,9 @@ public class Player : Character
         velocity *= speed;
         rig.velocity = velocity;
 
+        if (velocity != Vector3.zero) stateType = StateType.move;
+        else stateType = StateType.idle;
+
         transform.LookAt(new Vector3(transform.position.x+velocity.x, transform.position.y, transform.position.z + velocity.z));
         
         if (inputX == 0 && inputZ == 0) Idle();
@@ -62,12 +68,14 @@ public class Player : Character
     #region Attack
 
     private Character attackTarget;
+    
 
     private void Attack()
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
             anim.SetTrigger("Attack");
+            stateType = StateType.attack;
         }
     }
 
