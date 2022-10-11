@@ -12,26 +12,17 @@ public class WeaponController : MonoBehaviour
     private Character target;
     private Collider collider;
     public Player owner;
-    private WaitForSeconds attackCooldown;
+    private WaitForSeconds attackTime;
+    private WaitForSeconds attackAnimationCooldown;
     [SerializeField] private AttackStateType attackStateType;
+    public ParticleSystem swordParticle;
 
-    private void SetAttackCooldown(float cooldown) { attackCooldown = new WaitForSeconds(cooldown); }
-
-    private void OnTriggerEnter(Collider other)
+    private void SetAttackCooldown(float attackTime,float attackAnimationCooldown) 
     {
-        target = other.gameObject.GetComponent<Character>();
-        if (target != null)
-        {
-            GameManager.Instance.AttackToCha(owner, target);
-            StartCoroutine(SwingIEnumerator());
-            SetColliderEnabled(false);
-        }
+        this.attackTime = new WaitForSeconds(attackTime); 
+        this.attackAnimationCooldown = new WaitForSeconds(attackAnimationCooldown); 
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        
-    }
 
     public void SetColliderEnabled(bool colliderEnabled)
     {
@@ -39,11 +30,47 @@ public class WeaponController : MonoBehaviour
     }
 
 
-    public IEnumerator SwingIEnumerator()
+    public void StartAttack()
+    {
+        StartCoroutine(SwingIEnumerator());
+    }
+
+
+    private IEnumerator SwingIEnumerator()
     {
         attackStateType = AttackStateType.swing;
-        yield return attackCooldown;
+        yield return attackTime;//공격하는 순간
+                                //공격판정
+
+        Attack();
+        swordParticle.Play();
+
+        yield return attackAnimationCooldown;
         attackStateType = AttackStateType.ready;
+        swordParticle.Stop();
+    }
+
+    private Collider[] colls;
+    [SerializeField] private float radius = 1.5f;
+    private void Attack()
+    {
+        colls = Physics.OverlapSphere(owner.transform.position, radius);
+        foreach(var coll in colls)
+        {
+            Character target = coll.GetComponent<Character>();
+            if (target != null)
+            {
+                GameManager.Instance.AttackToCha(owner, target);
+            }
+        }
+        
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.matrix = owner.transform.localToWorldMatrix;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(Vector3.zero, radius);
     }
 
     bool CheckAttackState(StateType currentStateType)
@@ -62,7 +89,6 @@ public class WeaponController : MonoBehaviour
     private void Start()
     {
         owner = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        SetAttackCooldown(1.25f);
-        SetColliderEnabled(false);
+        SetAttackCooldown(1.0f, 1.25f);
     }
 }

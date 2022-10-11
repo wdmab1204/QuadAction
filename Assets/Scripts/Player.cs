@@ -79,18 +79,8 @@ public class Player : Character
         {
             anim.SetTrigger("Attack");
             stateType = StateType.attack;
-            weaponController.SetColliderEnabled(true);
+            weaponController.StartAttack();
         }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-
     }
 
     #endregion
@@ -106,7 +96,7 @@ public class Player : Character
     private void Awake()
     {
         SingletonInit();
-        weaponController = GameObject.FindObjectOfType<WeaponController>();
+        weaponController = FindObjectOfType<WeaponController>();
     }
 
     void Start()
