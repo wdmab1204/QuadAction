@@ -53,8 +53,12 @@ public class Player : Character
         velocity *= speed;
         rig.velocity = velocity;
 
-        if (velocity != Vector3.zero) stateType = StateType.move;
-        else stateType = StateType.idle;
+        if (stateType != StateType.attack)
+        {
+            if (velocity != Vector3.zero) stateType = StateType.move;
+            else stateType = StateType.idle;
+        }
+        
 
         transform.LookAt(new Vector3(transform.position.x+velocity.x, transform.position.y, transform.position.z + velocity.z));
         
@@ -67,8 +71,7 @@ public class Player : Character
 
     #region Attack
 
-    private Character attackTarget;
-    
+    private WeaponController weaponController;
 
     private void Attack()
     {
@@ -76,17 +79,18 @@ public class Player : Character
         {
             anim.SetTrigger("Attack");
             stateType = StateType.attack;
+            weaponController.SetColliderEnabled(true);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        attackTarget = collision.gameObject.GetComponent<Character>();
+
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        attackTarget = null;
+
     }
 
     #endregion
@@ -101,9 +105,8 @@ public class Player : Character
 
     private void Awake()
     {
-        //anim = GetComponent<Animator>();
-        //rig = GetComponent<Rigidbody>();
         SingletonInit();
+        weaponController = GameObject.FindObjectOfType<WeaponController>();
     }
 
     void Start()
