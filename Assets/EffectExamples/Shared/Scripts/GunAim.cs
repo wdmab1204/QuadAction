@@ -32,7 +32,8 @@ public class GunAim:MonoBehaviour
 
 		if (!isOutOfBounds)
 		{
-			transform.LookAt(parentCamera.ScreenToWorldPoint (new Vector3(mouseX, mouseY, 5.0f)));
+			//transform.LookAt(parentCamera.ScreenToWorldPoint (new Vector3(mouseX, mouseY, 5.0f)));
+			Debug.Log("transform.LookAt(parentCamera.ScreenToWorldPoint (new Vector3(mouseX, mouseY, 5.0f)));");
 		}
 	}
 

@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         SingletonInit();
     }
 
-    public void AttackToCha(Character attacker, Character target)
+    public void AttackToTarget(Character attacker, Character target)
     {
         Debug.Log("I hurt..!" + name);
 
@@ -47,10 +47,6 @@ public class GameManager : MonoBehaviour
         target_hp -= attacker.GetATK();
         target.SetHp(target_hp);
 
-        if (target.GetHp() <= 0)
-        {
-            target.Die();
-        }
     }
 
     void SummonMob(GameObject mob)

@@ -145,6 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c4746ba3ecbaf4c9e66d593e9c449c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
+  dieDelay: 4.18
 --- !u!54 &192544493
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -463,7 +465,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &486443585
 GameObject:
@@ -642,6 +644,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c4746ba3ecbaf4c9e66d593e9c449c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
+  dieDelay: 4.18
 --- !u!65 &707313324
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -690,6 +694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 486443587}
   attackStateType: 0
+  particlePrefab: {fileID: 1000013462590818, guid: ecdd96beb7f93494880c052dfccf9dc1, type: 3}
   radius: 1.5
 --- !u!64 &832777735
 MeshCollider:
@@ -963,6 +968,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c4746ba3ecbaf4c9e66d593e9c449c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
+  dieDelay: 4.18
 --- !u!65 &1306325443
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1001,7 +1008,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b0a2d35db57201d479ea5e61e3ac849e, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0a2d35db57201d479ea5e61e3ac849e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1089,6 +1096,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c4746ba3ecbaf4c9e66d593e9c449c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
+  dieDelay: 0
 --- !u!65 &1704279056
 BoxCollider:
   m_ObjectHideFlags: 0

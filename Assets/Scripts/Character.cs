@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    public int GetHp() { return _hp; }
-    public void SetHp(int hp) { _hp = hp; }
-    public int GetATK() { return _atk; }
-    public void SetATK(int atk) { _atk = atk; }
+    public virtual int GetHp() { return _hp; }
+    public virtual void SetHp(int hp) { _hp = hp; }
+    public virtual int GetATK() { return _atk; }
+    public virtual void SetATK(int atk) { _atk = atk; }
 
-    public void Die()
-    {
-        Destroy(this.gameObject);
-    }
+    public virtual void Die() { Destroy(this.gameObject); }
+    public virtual void Die(float time) { Destroy(this.gameObject, time); }
 
-    private int _hp;
-    private int _atk;
+    protected int _hp;
+    protected int _atk;
 }

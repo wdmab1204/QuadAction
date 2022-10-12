@@ -15,7 +15,7 @@ public class WeaponController : MonoBehaviour
     private WaitForSeconds attackTime;
     private WaitForSeconds attackAnimationCooldown;
     [SerializeField] private AttackStateType attackStateType;
-    public ParticleSystem swordParticle;
+    public GameObject particlePrefab;
 
     private void SetAttackCooldown(float attackTime,float attackAnimationCooldown) 
     {
@@ -43,11 +43,27 @@ public class WeaponController : MonoBehaviour
                                 //공격판정
 
         Attack();
-        swordParticle.Play();
+        ParticlePlay();
 
         yield return attackAnimationCooldown;
         attackStateType = AttackStateType.ready;
-        swordParticle.Stop();
+        ParticleStop();
+    }
+
+
+    GameObject particleObj;
+    
+    private void ParticlePlay()
+    {
+        Vector3 offset = new Vector3(0.0f, 0.0f, 1.0f);
+        particleObj = Instantiate(particlePrefab);
+        particleObj.transform.position = new Vector3(owner.transform.position.x + offset.x, owner.transform.position.y + offset.y, owner.transform.position.z + offset.z);
+    }
+
+    private void ParticleStop()
+    {
+        Debug.Log("destroy");
+        Destroy(particleObj);
     }
 
     private Collider[] colls;
@@ -60,7 +76,7 @@ public class WeaponController : MonoBehaviour
             Character target = coll.GetComponent<Character>();
             if (target != null)
             {
-                GameManager.Instance.AttackToCha(owner, target);
+                GameManager.Instance.AttackToTarget(owner, target);
             }
         }
         
