@@ -12,6 +12,6 @@ public class Character : MonoBehaviour
     public virtual void Die() { Destroy(this.gameObject); }
     public virtual void Die(float time) { Destroy(this.gameObject, time); }
 
-    protected int _hp;
-    protected int _atk;
+    [SerializeField] protected int _hp;
+    [SerializeField] protected int _atk;
 }

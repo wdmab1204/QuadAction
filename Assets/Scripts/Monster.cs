@@ -19,6 +19,7 @@ public class Monster : Character
 
         transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
         transform.LookAt(target);
+        Debug.Log("Follow..");
     }
 
     #endregion
@@ -39,11 +40,21 @@ public class Monster : Character
         }
     }
 
+    void Attack()
+    {
+        //플레이어를 공격하고
+        int playerHp = GameManager.Instance.AttackToTarget(this, Player.Instance);
+
+        //플레이어 체력 slider에 적용
+        GameManager.Instance.SetSliderValue(playerHp);
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         col = GetComponent<Collider>();
+        dying = false;
 
     }
     private void Start()
@@ -52,6 +63,6 @@ public class Monster : Character
     }
     private void Update()
     {
-        //FollowTarget();
+        FollowTarget();
     }
 }
