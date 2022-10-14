@@ -55,7 +55,7 @@ public class WeaponController : MonoBehaviour
     
     private void ParticlePlay()
     {
-        Vector3 offset = new Vector3(0.0f, 0.0f, 1.0f);
+        Vector3 offset = new Vector3(0.0f, 0.0f, 0.5f);
         particleObj = Instantiate(particlePrefab);
         particleObj.transform.position = new Vector3(owner.transform.position.x + offset.x, owner.transform.position.y + offset.y, owner.transform.position.z + offset.z);
     }
