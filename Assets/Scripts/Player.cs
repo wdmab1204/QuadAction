@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum StateType { none, idle, move, attack };
@@ -41,6 +39,8 @@ public class Player : Character
 
     #region Movement
     public int speed;
+    public float turnSpeed = 180f;
+
     private void Move()
     {
         float inputX = Input.GetAxis("Horizontal");
@@ -58,10 +58,11 @@ public class Player : Character
             if (velocity != Vector3.zero) stateType = StateType.move;
             else stateType = StateType.idle;
         }
-        
 
-        transform.LookAt(new Vector3(transform.position.x+velocity.x, transform.position.y, transform.position.z + velocity.z));
-        
+
+        //transform.LookAt(new Vector3(transform.position.x+velocity.x, transform.position.y, transform.position.z + velocity.z));
+
+
         if (inputX == 0 && inputZ == 0) Idle();
         else Run();
 

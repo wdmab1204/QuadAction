@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -9,7 +8,6 @@ public enum AttackStateType { ready, swing };
 //충돌판정으로 적에게 데미지를 입힘
 public class WeaponController : MonoBehaviour
 {
-    private Character target;
     private Collider collider;
     public Player owner;
     private WaitForSeconds attackTime;

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Monster : Character
@@ -30,14 +28,19 @@ public class Monster : Character
     public override void SetHp(int hp)
     {
         base.SetHp(hp);
-        if (_hp <= 0)
-        {
-            dying = true;
-            anim.SetTrigger("Die");
-            Destroy(this.gameObject,dieDelay);
-            col.enabled = false;
-            rb.useGravity = false;
-        }
+        if (_hp <= 0) Die();
+    }
+
+    private int score = 5;
+    private void Die()
+    {
+        dying = true;
+        anim.SetTrigger("Die");
+        Destroy(this.gameObject, dieDelay);
+        col.enabled = false;
+        rb.useGravity = false;
+
+        GameManager.Instance.SetScore(score);
     }
 
     void Attack()

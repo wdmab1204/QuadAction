@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,14 +34,43 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region UI
     [SerializeField] private HpSlider playerHpSlider;
+    [SerializeField] private TMP_Text timerText;
+    [SerializeField] private TMP_Text scoreText;
+    #endregion
 
-    void Awake()
+    #region GameRule
+
+    #region Timer
+    [SerializeField] private float maxTime;
+    private float currentTime;
+    private void Timer()
     {
-        SingletonInit();
-        playerHpSlider = FindObjectOfType<HpSlider>();
-    }
 
+        currentTime -= Time.deltaTime;
+        timerText.text = (float)Math.Round(currentTime, 2) + "";
+        if (currentTime <= 0.0f)
+        {
+            //game over
+        }
+    }
+    #endregion
+
+
+    #region Score
+    private int currentScore;
+    public void SetScore(int score)
+    {
+        currentScore += score;
+        scoreText.text = currentScore + "";
+    }
+    #endregion
+
+
+    #endregion
+
+    
     public int AttackToTarget(Character attacker, Character target)
     {
         Debug.Log("I hurt..!" + target.name);
@@ -59,16 +87,27 @@ public class GameManager : MonoBehaviour
         playerHpSlider.SetValue((int)value);
     }
 
-    void SummonMob(GameObject mob)
+    private void SummonMob(GameObject mob)
     {
         Instantiate(mob);
     }
 
-    bool CheckTimeOver()
+    private bool CheckTimeOver()
     {
         return true;
     }
 
-    
-    
+    private void Awake()
+    {
+        SingletonInit();
+        playerHpSlider = FindObjectOfType<HpSlider>();
+        currentTime = maxTime;
+        currentScore = 0;
+    }
+
+    private void Update()
+    {
+        Timer();
+    }
+
 }
