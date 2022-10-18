@@ -40,7 +40,6 @@ public class Player : Character
     #region Movement
     public int speed;
     public float rotationSpeed = 180f;
-    private Vector3 rotation;
 
     private void Move()
     {
