@@ -17,7 +17,7 @@ public class Monster : Character
 
         transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
         transform.LookAt(target);
-        Debug.Log("Follow..");
+        //Debug.Log("Follow..");
     }
 
     #endregion

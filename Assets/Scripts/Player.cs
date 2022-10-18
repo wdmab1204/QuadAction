@@ -39,32 +39,37 @@ public class Player : Character
 
     #region Movement
     public int speed;
-    public float turnSpeed = 180f;
+    public float rotationSpeed = 180f;
+    private Vector3 rotation;
 
     private void Move()
     {
-        float inputX = Input.GetAxis("Horizontal");
-        float inputZ = Input.GetAxis("Vertical");
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
         // -1 ~ 1
 
-        Vector3 velocity = new Vector3(-inputX, 0, -inputZ);
+        Vector3 velocity = new Vector3(h, 0, v);
         
-        velocity = velocity.normalized;
-        velocity *= speed;
-        rig.velocity = velocity;
+        velocity.Normalize();
+        rig.velocity = velocity * speed;
 
-        if (stateType != StateType.attack)
+        if (velocity != Vector3.zero)
         {
-            if (velocity != Vector3.zero) stateType = StateType.move;
-            else stateType = StateType.idle;
+            stateType = StateType.move;
+
+            Quaternion toRotation = Quaternion.LookRotation(velocity, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+
+            Run();
+        }
+        else
+        {
+            stateType = StateType.idle;
+
+            Idle();
         }
 
 
-        //transform.LookAt(new Vector3(transform.position.x+velocity.x, transform.position.y, transform.position.z + velocity.z));
-
-
-        if (inputX == 0 && inputZ == 0) Idle();
-        else Run();
 
        
     }
