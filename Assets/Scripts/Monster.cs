@@ -1,12 +1,18 @@
 using System.Collections;
 using UnityEngine;
 
+enum MonsterBehaviourType { FollowTarget, Attack };
+
 public class Monster : Character
 {
+    [Header("Global")]
     [SerializeField] private Animator anim;
-    #region Follow Player
-    [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private MonsterBehaviourType behaviourType;
 
+
+    #region Follow Player
+    [Header("Following variable")]
+    [SerializeField] private float moveSpeed = 3f;
     private Rigidbody rb;
     private Transform target;
     private Collider col;
@@ -23,6 +29,7 @@ public class Monster : Character
     // Start is called before the first frame update
 
     #region Die
+    [Header("Dying variable")]
     private bool dying;
     public float dyingTime;
     public override void SetHp(int hp)
@@ -45,29 +52,54 @@ public class Monster : Character
     #endregion
 
     #region Attack
-    public float attackingTime;
-    public AnimationClip attackclip;
-    private void Attack()
+    [Header("Attacking variable")]
+    public float timingAttack;
+    public float attackCoolTime;
+    private IEnumerator Attack()
     {
+        Debug.Assert(timingAttack > attackCoolTime);
+
+        yield return new WaitForSeconds(timingAttack); //공격타이밍 시간
         //플레이어를 공격하고
         int playerHp = GameManager.Instance.AttackToTarget(this, Player.Instance);
         //플레이어 체력 slider에 적용
         GameManager.Instance.SetSliderValue(playerHp);
+
+        yield return new WaitForSeconds(attackCoolTime - timingAttack);//재사용 대기시간
     }
     #endregion
 
-    private void MonsterAI()
+    private IEnumerator MonsterAI()
     {
-        //handler써볼까
-        
-        //if 플레이어와 멀리 있다면
-        //    handler = followtarget
-            
-        //else
-        //    handler = attack
+        Vector3 vec2Target;
+        float distance;
 
-        //동시에 두가지 수행하지 못하도록
-        //괜히 bool 끼워넣으면 더러워보임
+        while (true)
+        {
+            vec2Target = target.position - this.transform.position;
+            vec2Target.y = 0; //xz plane에서만 움직이기때문에
+            distance = vec2Target.magnitude;
+
+            if (distance < 2.0f) //target이 공격사정거리안에 들어왔는가?
+            {
+                //StartCoroutine(Attack());
+
+                Debug.Assert(timingAttack > attackCoolTime);
+
+                yield return new WaitForSeconds(timingAttack); //공격타이밍 시간
+                                                               //플레이어를 공격하고
+                int playerHp = GameManager.Instance.AttackToTarget(this, Player.Instance);
+                //플레이어 체력 slider에 적용
+                GameManager.Instance.SetSliderValue(playerHp);
+
+                yield return new WaitForSeconds(attackCoolTime - timingAttack);//재사용 대기시간
+            }
+
+            yield return null;
+        }
+        
+
+        
     }
 
 
@@ -81,9 +113,6 @@ public class Monster : Character
     private void Start()
     {
         target = Player.Instance.transform;
-    }
-    private void Update()
-    {
-        MonsterAI();
+        StartCoroutine(MonsterAI());
     }
 }
