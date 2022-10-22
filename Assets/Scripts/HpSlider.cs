@@ -3,29 +3,22 @@ using UnityEngine.UI;
 
 public class HpSlider : MonoBehaviour
 {
-    [SerializeField] private Player player;
     private Slider slider;
 
-    public void SetValue(int hp)
+    public void UpdateValue()
     {
-        slider.value = hp;
+        int currentHp = Player.Instance.GetHp();
+        slider.value = currentHp;
     }
 
     private void Awake()
     {
-        player = FindObjectOfType<Player>();
         slider = GetComponent<Slider>();
     }
     // Start is called before the first frame update
     void Start()
     {
-        slider.maxValue = player.GetHp();
-        slider.value = player.GetHp();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        slider.maxValue = Player.Instance.GetHp();
+        slider.value = Player.Instance.GetHp();
     }
 }

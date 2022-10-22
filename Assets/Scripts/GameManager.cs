@@ -78,13 +78,12 @@ public class GameManager : MonoBehaviour
         int target_hp = target.GetHp();
         target_hp -= attacker.GetATK();
         target.SetHp(target_hp);
+        target.beDamaged();
+        playerHpSlider.UpdateValue();
+
+        if (target.GetHp() <= 0) target.Die();
 
         return target_hp;
-    }
-
-    public void SetSliderValue(float value)
-    {
-        playerHpSlider.SetValue((int)value);
     }
 
     private void SummonMob(GameObject mob)

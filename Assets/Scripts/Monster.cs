@@ -35,7 +35,7 @@ public class Monster : Character
     public override void SetHp(int hp)
     {
         base.SetHp(hp);
-        if (_hp <= 0) Die();
+        if (GetHp() <= 0) Die();
     }
 
     private int score = 5;
@@ -55,15 +55,14 @@ public class Monster : Character
     [Header("Attacking variable")]
     public float timingAttack;
     public float attackCoolTime;
+    public float attackDistance;
     private IEnumerator Attack()
     {
-        Debug.Assert(timingAttack > attackCoolTime);
+        Debug.Assert(timingAttack < attackCoolTime);
 
         yield return new WaitForSeconds(timingAttack); //공격타이밍 시간
-        //플레이어를 공격하고
+        //플레이어를 공격
         int playerHp = GameManager.Instance.AttackToTarget(this, Player.Instance);
-        //플레이어 체력 slider에 적용
-        GameManager.Instance.SetSliderValue(playerHp);
 
         yield return new WaitForSeconds(attackCoolTime - timingAttack);//재사용 대기시간
     }
@@ -76,23 +75,20 @@ public class Monster : Character
 
         while (true)
         {
+            //distance 구하는 과정
             vec2Target = target.position - this.transform.position;
-            vec2Target.y = 0; //xz plane에서만 움직이기때문에
+            vec2Target.y = 0;
             distance = vec2Target.magnitude;
 
-            if (distance < 2.0f) //target이 공격사정거리안에 들어왔는가?
+            if (distance < attackDistance) //target이 공격사정거리안에 들어왔는가?
             {
-                //StartCoroutine(Attack());
-
-                Debug.Assert(timingAttack > attackCoolTime);
-
-                yield return new WaitForSeconds(timingAttack); //공격타이밍 시간
-                                                               //플레이어를 공격하고
-                int playerHp = GameManager.Instance.AttackToTarget(this, Player.Instance);
-                //플레이어 체력 slider에 적용
-                GameManager.Instance.SetSliderValue(playerHp);
-
-                yield return new WaitForSeconds(attackCoolTime - timingAttack);//재사용 대기시간
+                anim.SetBool("canAttack", true);
+                yield return StartCoroutine(Attack());
+            }
+            else //사정거리밖이라면 플레이어 따라가기
+            {
+                anim.SetBool("canAttack", false);
+                FollowTarget();
             }
 
             yield return null;

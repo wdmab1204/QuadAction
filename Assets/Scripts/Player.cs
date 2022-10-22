@@ -4,6 +4,7 @@ public enum StateType { none, idle, move, attack };
 
 public class Player : Character
 {
+
     #region Singleton
     private static Player instance = null;
 
@@ -88,6 +89,29 @@ public class Player : Character
         }
     }
 
+    #endregion
+
+
+    #region beDamaged
+    [SerializeField] private ParticleSystem _particle;
+    public ParticleSystem particle
+    {
+        get
+        {
+            if (_particle == null)
+            {
+                _particle = transform.GetChild(0).GetComponent<ParticleSystem>();
+            }
+            return _particle;
+        }
+    }
+
+    public override void beDamaged()
+    {
+        var random = Random.Range(0f, 360f);
+        _particle.transform.rotation = Quaternion.Euler(0, random, 0);
+        _particle.Play();
+    }
     #endregion
 
     #region Animation

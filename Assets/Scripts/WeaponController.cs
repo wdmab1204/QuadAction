@@ -8,25 +8,29 @@ public enum AttackStateType { ready, swing };
 //충돌판정으로 적에게 데미지를 입힘
 public class WeaponController : MonoBehaviour
 {
-    private Collider collider;
     public Player owner;
     private WaitForSeconds attackTime;
     private WaitForSeconds attackAnimationCooldown;
     [SerializeField] private AttackStateType attackStateType;
-    public GameObject particlePrefab;
+    [SerializeField] private ParticleSystem _particle;
+    public ParticleSystem particle
+    {
+        get
+        {
+            if (_particle == null)
+            {
+                _particle = transform.GetChild(0).GetComponent<ParticleSystem>();
+            }
+            return _particle;
+        }
+    }
+
 
     private void SetAttackCooldown(float attackTime,float attackAnimationCooldown) 
     {
         this.attackTime = new WaitForSeconds(attackTime); 
         this.attackAnimationCooldown = new WaitForSeconds(attackAnimationCooldown); 
     }
-
-
-    public void SetColliderEnabled(bool colliderEnabled)
-    {
-        collider.enabled = colliderEnabled;
-    }
-
 
     public void StartAttack()
     {
@@ -49,19 +53,15 @@ public class WeaponController : MonoBehaviour
     }
 
 
-    GameObject particleObj;
     
     private void ParticlePlay()
     {
-        Vector3 offset = new Vector3(0.0f, 0.0f, 0.5f);
-        particleObj = Instantiate(particlePrefab);
-        particleObj.transform.position = new Vector3(owner.transform.position.x + offset.x, owner.transform.position.y + offset.y, owner.transform.position.z + offset.z);
+        particle.Play();
     }
 
     private void ParticleStop()
     {
-        Debug.Log("destroy");
-        Destroy(particleObj);
+        particle.Stop();
     }
 
     private Collider[] colls;
@@ -97,7 +97,7 @@ public class WeaponController : MonoBehaviour
 
     private void Awake()
     {
-        collider = GetComponent<Collider>();
+
     }
 
     private void Start()

@@ -7,6 +7,8 @@ public class Character : MonoBehaviour
     public virtual int GetATK() { return _atk; }
     public virtual void SetATK(int atk) { _atk = atk; }
 
+    public virtual void beDamaged() { }
+
     public virtual void Die() { Destroy(this.gameObject); }
     public virtual void Die(float time) { Destroy(this.gameObject, time); }
 
