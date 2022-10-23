@@ -3,6 +3,7 @@ using UnityEngine;
 
 enum MonsterBehaviourType { FollowTarget, Attack };
 
+[RequireComponent(typeof(Collider))]
 public class Monster : Character
 {
     [Header("Global")]
@@ -45,7 +46,7 @@ public class Monster : Character
         anim.SetTrigger("Die");
         Destroy(this.gameObject, dyingTime);
         col.enabled = false;
-        rb.useGravity = false;
+        //rb.useGravity = false;
 
         GameManager.Instance.SetScore(score);
     }
@@ -101,7 +102,7 @@ public class Monster : Character
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         col = GetComponent<Collider>();
         dying = false;
