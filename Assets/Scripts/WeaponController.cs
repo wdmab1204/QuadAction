@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -9,38 +10,45 @@ public enum AttackStateType { ready, swing };
 public class WeaponController : MonoBehaviour
 {
     public Player owner;
+    [SerializeField] private Skill[] skills;
+    private Skill selectedSkill;
     private WaitForSeconds attackTime;
     private WaitForSeconds attackAnimationCooldown;
-    [SerializeField] private AttackStateType attackStateType;
-    [SerializeField] private ParticleSystem _particle;
+    private ParticleSystem _particle;
+    
     public ParticleSystem particle
     {
         get
         {
             if (_particle == null)
             {
-                _particle = transform.GetChild(0).GetComponent<ParticleSystem>();
+                _particle = transform.Find(selectedSkill.particleName).GetComponent<ParticleSystem>();
+                if (_particle == null)
+                {
+                    Debug.LogWarning("Cannot find particle name", _particle);
+                }
             }
             return _particle;
         }
     }
 
 
-    private void SetAttackCooldown(float attackTime,float attackAnimationCooldown) 
+    private void InitAttackCooldown() 
     {
-        this.attackTime = new WaitForSeconds(attackTime); 
-        this.attackAnimationCooldown = new WaitForSeconds(attackAnimationCooldown); 
+        this.attackTime = new WaitForSeconds(selectedSkill.attackTime); 
+        this.attackAnimationCooldown = new WaitForSeconds(selectedSkill.attackAnimationCooldown);
     }
 
-    public void StartAttack()
+    public void StartAttack(int skillIndex)
     {
+        selectedSkill = skills[skillIndex];
+        InitAttackCooldown();
         StartCoroutine(SwingIEnumerator());
     }
 
 
     private IEnumerator SwingIEnumerator()
     {
-        attackStateType = AttackStateType.swing;
         yield return attackTime;//공격하는 순간
                                 //공격판정
 
@@ -48,7 +56,6 @@ public class WeaponController : MonoBehaviour
         ParticlePlay();
 
         yield return attackAnimationCooldown;
-        attackStateType = AttackStateType.ready;
         ParticleStop();
     }
 
@@ -65,10 +72,9 @@ public class WeaponController : MonoBehaviour
     }
 
     private Collider[] colls;
-    [SerializeField] private float radius = 1.5f;
     private void Attack()
     {
-        colls = Physics.OverlapSphere(owner.transform.position, radius);
+        colls = Physics.OverlapSphere(owner.transform.position, selectedSkill.range);
         foreach(var coll in colls)
         {
             Character target = coll.GetComponent<Character>();
@@ -80,12 +86,12 @@ public class WeaponController : MonoBehaviour
         
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.matrix = owner.transform.localToWorldMatrix;
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(Vector3.zero, radius);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.matrix = owner.transform.localToWorldMatrix;
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawWireSphere(Vector3.zero, selectedSkill.range);
+    //}
 
     bool CheckAttackState(StateType currentStateType)
     {
@@ -93,7 +99,6 @@ public class WeaponController : MonoBehaviour
         else return false;
     }
 
-    public bool CheckCurrentAttacking() { return attackStateType != AttackStateType.ready; }
 
     private void Awake()
     {
@@ -103,6 +108,7 @@ public class WeaponController : MonoBehaviour
     private void Start()
     {
         owner = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        SetAttackCooldown(1.0f, 1.25f);
+        skills = Resources.LoadAll<Skill>("Skills");
+        selectedSkill = skills[0];
     }
 }

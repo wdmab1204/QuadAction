@@ -85,7 +85,13 @@ public class Player : Character
         {
             anim.SetTrigger("Attack");
             stateType = StateType.attack;
-            weaponController.StartAttack();
+            weaponController.StartAttack(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            anim.SetTrigger("Kick");
+            stateType = StateType.attack;
+            weaponController.StartAttack(1);
         }
     }
 
