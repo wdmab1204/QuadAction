@@ -94,15 +94,36 @@ public class Player : Character
             weaponController.StartAttack(1);
         }
     }
+    #region damaged
 
+    [SerializeField] private Collider col;
     private void OnTriggerEnter(Collider collision)
     {
         var enemy = collision.GetComponent<Monster>();
         if (enemy != null)
+        {
+            OnDamaged(collision.transform.position);
             GameManager.Instance.AttackToTarget(enemy, this);
+        }
     }
 
+    void OnDamaged(Vector3 targetPos)
+    {
+        col.enabled = false; // 公利
 
+        int dirc_x = transform.position.x - targetPos.x > 0 ? 1 : -1;
+        int dirc_z = transform.position.z - targetPos.z > 0 ? 1 : -1;
+        rig.AddForce(new Vector3(dirc_x, transform.position.y, dirc_z) * 10.0f, ForceMode.Impulse);
+
+        Invoke("OffDamaged", 2);
+    }
+
+    void OffDamaged()
+    {
+        col.enabled = true; //公利 秦力
+    }
+
+    #endregion
     #endregion
 
 
@@ -140,11 +161,19 @@ public class Player : Character
     {
         SingletonInit();
         weaponController = FindObjectOfType<WeaponController>();
+        col = GetComponent<Collider>();
+        rig = GetComponent<Rigidbody>();
     }
 
+    Action1 action;
+    [SerializeField]private GameObject ball;
+    [SerializeField] private float objSpeed = 1.0f;
+    [SerializeField] private float circleR = 1.0f;
     void Start()
     {
-        
+        action = new Action1();
+        action.Init(ball, this.transform, 3, objSpeed, circleR);
+        StartCoroutine(action.UpdateAction());
     }
 
     // Update is called once per frame
