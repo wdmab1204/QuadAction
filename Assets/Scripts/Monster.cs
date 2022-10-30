@@ -83,12 +83,12 @@ public class Monster : Character
 
             if (distance < attackDistance) //target이 공격사정거리안에 들어왔는가?
             {
-                anim.SetBool("canAttack", true);
+                //anim.SetBool("canAttack", true);
                 yield return StartCoroutine(Attack());
             }
             else //사정거리밖이라면 플레이어 따라가기
             {
-                anim.SetBool("canAttack", false);
+                //anim.SetBool("canAttack", false);
                 FollowTarget();
             }
 
@@ -103,7 +103,7 @@ public class Monster : Character
     private void Awake()
     {
         //rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
         col = GetComponent<Collider>();
         dying = false;
     }

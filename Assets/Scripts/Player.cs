@@ -95,6 +95,14 @@ public class Player : Character
         }
     }
 
+    private void OnTriggerEnter(Collider collision)
+    {
+        var enemy = collision.GetComponent<Monster>();
+        if (enemy != null)
+            GameManager.Instance.AttackToTarget(enemy, this);
+    }
+
+
     #endregion
 
 
