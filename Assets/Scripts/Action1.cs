@@ -6,7 +6,6 @@ public class Action1
 {
     private Transform[] objs;
 
-    private GameObject ball;
     private Transform t;
     private float objSpeed;
     private float circleR;
@@ -21,7 +20,6 @@ public class Action1
     }
     public void Init(GameObject ball, Transform t, int objCount, float objSpeed = 1.0f, float circleR = 1.0f)
     {
-        this.ball = ball;
         this.t = t;
         this.objSpeed = objSpeed;
         this.circleR = circleR;
@@ -46,8 +44,8 @@ public class Action1
 
                 var rad = Mathf.Deg2Rad * (deg + (i * (360 / objCount)));
                 var x = circleR * Mathf.Sin(rad);
-                var y = circleR * Mathf.Cos(rad);
-                objs[i].position = t.position + new Vector3(x, 0, y);
+                var z = circleR * Mathf.Cos(rad);
+                objs[i].position = t.position + new Vector3(x, 0, z);
                 objs[i].rotation = Quaternion.Euler(0, (deg + (i * (360 / objCount))) * -1, 0);
             }
 

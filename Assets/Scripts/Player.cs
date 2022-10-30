@@ -166,14 +166,28 @@ public class Player : Character
     }
 
     Action1 action;
-    [SerializeField]private GameObject ball;
+    Action2 action2;
+    [SerializeField] private GameObject ball;
+
+    [Header("Action 1")]
+    [SerializeField] private int objCount = 1;
     [SerializeField] private float objSpeed = 1.0f;
     [SerializeField] private float circleR = 1.0f;
+
+    [Header("Action 2")]
+    [SerializeField] private int objCount2 = 1;
+    [SerializeField] private float theta = 30.0f;
+    [SerializeField] private float objSpeed2 = 1.0f;
+    [SerializeField] private float distance = 1.0f;
     void Start()
     {
         action = new Action1();
-        action.Init(ball, this.transform, 3, objSpeed, circleR);
+        action.Init(ball, this.transform, objCount, objSpeed, circleR);
         StartCoroutine(action.UpdateAction());
+
+        action2 = new Action2();
+        action2.Init(ball, this.transform, objCount2, theta, objSpeed2, distance);
+        StartCoroutine(action2.UpdateAction());
     }
 
     // Update is called once per frame
@@ -181,5 +195,12 @@ public class Player : Character
     {
         Move();
         Attack();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        // if action2가 실행중인가?
     }
 }
