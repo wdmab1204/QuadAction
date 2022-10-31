@@ -60,6 +60,7 @@ public class Player : Character
             Quaternion toRotation = Quaternion.LookRotation(velocity, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
 
+
             Run();
         }
         else

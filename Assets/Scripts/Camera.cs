@@ -2,20 +2,39 @@ using UnityEngine;
 
 public class Camera : MonoBehaviour
 {
+
     public Player player;
-    public Vector3 distance;
-    private Transform playerTransform;
-    // Start is called before the first frame update
-    void Start()
+    public Transform target;
+
+    public bool isCustomOffset;
+    public Vector3 offset;
+
+    public float smoothSpeed = 0.1f;
+
+    private void Start()
     {
-        playerTransform = player.transform;
+
+        target = player.transform;
+        // You can also specify your own offset from inspector
+        // by making isCustomOffset bool to true
+        if (!isCustomOffset)
+        {
+            offset = transform.position - target.position;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
-        transform.position = new Vector3(playerTransform.position.x + distance.x,
-            playerTransform.position.y + distance.y,
-            playerTransform.position.z + distance.z);
+        SmoothFollow();
+    }
+
+    public void SmoothFollow()
+    {
+        Vector3 targetPos = target.position + offset;
+        Vector3 smoothFollow = Vector3.Lerp(transform.position,
+        targetPos, smoothSpeed);
+
+        transform.position = smoothFollow;
+        transform.LookAt(target);
     }
 }
