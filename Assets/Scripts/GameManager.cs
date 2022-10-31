@@ -96,6 +96,8 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+
+
     private void Awake()
     {
         SingletonInit();

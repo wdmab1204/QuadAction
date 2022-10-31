@@ -33,6 +33,8 @@ public class Monster : Character
     [Header("Dying variable")]
     private bool dying;
     public float dyingTime;
+    public GameObject treasureBox;
+
     public override void SetHp(int hp)
     {
         base.SetHp(hp);
