@@ -29,7 +29,7 @@ public class Action1
         objs = new Transform[objCount];
 
         for (int i = 0; i < objCount; i++)
-            objs[i] = GameObject.Instantiate(ball, t).transform;
+            objs[i] = GameObject.Instantiate(ball).transform;
         
     }
 
@@ -45,7 +45,7 @@ public class Action1
                 var rad = Mathf.Deg2Rad * (deg + (i * (360 / objCount)));
                 var x = circleR * Mathf.Sin(rad);
                 var z = circleR * Mathf.Cos(rad);
-                objs[i].position = t.position + new Vector3(x, 0, z);
+                objs[i].position = t.position + new Vector3(x, 1.5f, z);
                 objs[i].rotation = Quaternion.Euler(0, (deg + (i * (360 / objCount))) * -1, 0);
             }
 

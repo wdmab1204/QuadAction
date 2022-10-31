@@ -110,11 +110,11 @@ public class Player : Character
 
     void OnDamaged(Vector3 targetPos)
     {
-        col.enabled = false; // 公利
+        //col.enabled = false; // 公利
 
         int dirc_x = transform.position.x - targetPos.x > 0 ? 1 : -1;
         int dirc_z = transform.position.z - targetPos.z > 0 ? 1 : -1;
-        rig.AddForce(new Vector3(dirc_x, transform.position.y, dirc_z) * 10.0f, ForceMode.Impulse);
+        rig.AddForce(new Vector3(dirc_x, 1, dirc_z) * 10.0f, ForceMode.Impulse);
 
         Invoke("OffDamaged", 2);
     }
@@ -142,12 +142,12 @@ public class Player : Character
         }
     }
 
-    public override void beDamaged()
-    {
-        var random = Random.Range(0f, 360f);
-        _particle.transform.rotation = Quaternion.Euler(0, random, 0);
-        _particle.Play();
-    }
+    //public override void beDamaged()
+    //{
+    //    var random = Random.Range(0f, 360f);
+    //    _particle.transform.rotation = Quaternion.Euler(0, random, 0);
+    //    _particle.Play();
+    //}
     #endregion
 
     #region Animation
@@ -186,9 +186,9 @@ public class Player : Character
         action.Init(ball, this.transform, objCount, objSpeed, circleR);
         StartCoroutine(action.UpdateAction());
 
-        action2 = new Action2();
-        action2.Init(ball, this.transform, objCount2, theta, objSpeed2, distance);
-        StartCoroutine(action2.UpdateAction());
+        //action2 = new Action2();
+        //action2.Init(ball, this.transform, objCount2, theta, objSpeed2, distance);
+        //StartCoroutine(action2.UpdateAction());
     }
 
     // Update is called once per frame

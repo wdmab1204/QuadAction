@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
 
     #region Score
-    private int currentScore;
+    private int currentScore = 0;
     public void SetScore(int score)
     {
         currentScore += score;
@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        //Timer();
+        Timer();
     }
 
 }

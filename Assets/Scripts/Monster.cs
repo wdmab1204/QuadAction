@@ -43,12 +43,13 @@ public class Monster : Character
     public override void Die()
     {
         dying = true;
+        GameManager.Instance.SetScore(score);
         anim.SetTrigger("Die");
         Destroy(this.gameObject, dyingTime);
         col.enabled = false;
         //rb.useGravity = false;
 
-        GameManager.Instance.SetScore(score);
+        
     }
     #endregion
 
