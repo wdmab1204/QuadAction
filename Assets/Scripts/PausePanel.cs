@@ -17,7 +17,8 @@ public class PausePanel : MonoBehaviour
     public void Restart()
     {
         //버그가많다
-        //UnityEngine.SceneManagement.SceneManager.LoadScene(gameObject.scene.name);
+        Time.timeScale = 1.0f;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(gameObject.scene.name);
     }
 
     public void Exit()

@@ -5,41 +5,10 @@ public enum StateType { none, idle, move, attack };
 public class Player : Character
 {
 
-    #region Singleton
-    private static Player instance = null;
-
-    protected void SingletonInit()
-    {
-        if (null == instance)
-        {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
-
-
-    public static Player Instance
-    {
-        get
-        {
-            if (null == instance)
-            {
-                return null;
-            }
-            return instance;
-        }
-    }
-    #endregion
-
     [SerializeField] private Rigidbody rig;
     public StateType stateType;
 
     #region Movement
-    public int speed;
     public float rotationSpeed = 180f;
 
     private void Move()
@@ -47,14 +16,13 @@ public class Player : Character
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
         // -1 ~ 1
-
         Vector3 velocity = new Vector3(h, 0, v);
         
         velocity.Normalize();
-        rig.velocity = velocity * speed;
 
         if (velocity != Vector3.zero)
         {
+            rig.velocity = velocity * speed;
             stateType = StateType.move;
 
             Quaternion toRotation = Quaternion.LookRotation(velocity, Vector3.up);
@@ -104,7 +72,7 @@ public class Player : Character
         if (enemy != null)
         {
             OnDamaged(collision.transform.position);
-            GameManager.Instance.AttackToTarget(enemy, this);
+            GameManager.Instance.AttackToTarget(enemy.GetATK(), this);
         }
     }
 
@@ -160,7 +128,6 @@ public class Player : Character
 
     private void Awake()
     {
-        SingletonInit();
         weaponController = FindObjectOfType<WeaponController>();
         col = GetComponent<Collider>();
         rig = GetComponent<Rigidbody>();

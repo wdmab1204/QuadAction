@@ -9,9 +9,9 @@ namespace ItemNameSpace
             this.icon = item.icon;
             this.itemType = item.itemType;
         }
-        public override void Use()
+        public override void Use(Character user)
         {
-            Player.Instance.speed += 5;
+            user.SetSpeed(user.GetSpeed() + 5.0f);
 
             //이펙트나 효과음 추가
         }

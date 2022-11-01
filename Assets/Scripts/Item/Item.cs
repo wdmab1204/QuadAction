@@ -18,6 +18,6 @@ namespace ItemNameSpace
         public Sprite icon = null;
         public ItemType itemType;
 
-        public virtual void Use() { }
+        public virtual void Use(Character user) { }
     }
 }

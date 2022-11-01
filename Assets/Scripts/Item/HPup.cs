@@ -12,10 +12,9 @@ namespace ItemNameSpace
             this.icon = item.icon;
             this.itemType = item.itemType;
         }
-        public override void Use()
+        public override void Use(Character user)
         {
-            int currentHP = Player.Instance.GetHp();
-            Player.Instance.SetHp(currentHP + 5);
+            user.SetHp(user.GetHp() + 5);
 
             //이펙트나 효과음 추가
         }

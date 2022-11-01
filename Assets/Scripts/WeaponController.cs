@@ -80,7 +80,7 @@ public class WeaponController : MonoBehaviour
             Character target = coll.GetComponent<Character>();
             if (target != null)
             {
-                GameManager.Instance.AttackToTarget(owner, target);
+                //GameManager.Instance.AttackToTarget(owner, target);
             }
         }
         

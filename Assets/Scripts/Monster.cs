@@ -15,15 +15,15 @@ public class Monster : Character
     [Header("Following variable")]
     [SerializeField] private float moveSpeed = 3f;
     private Rigidbody rb;
-    private Transform target;
+    private Character target;
     private Collider col;
 
     void FollowTarget()
     {
         if (dying) return;
 
-        transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
-        transform.LookAt(target);
+        transform.position = Vector3.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
+        transform.LookAt(target.transform);
     }
 
     #endregion
@@ -33,7 +33,7 @@ public class Monster : Character
     [Header("Dying variable")]
     private bool dying;
     public float dyingTime;
-    public GameObject treasureBox;
+    public GameObject treasureBoxPrefab;
 
     public override void SetHp(int hp)
     {
@@ -66,7 +66,7 @@ public class Monster : Character
 
         yield return new WaitForSeconds(timingAttack); //공격타이밍 시간
         //플레이어를 공격
-        int playerHp = GameManager.Instance.AttackToTarget(this, Player.Instance);
+        int playerHp = GameManager.Instance.AttackToTarget(GetATK(), target);
 
         yield return new WaitForSeconds(attackCoolTime - timingAttack);//재사용 대기시간
     }
@@ -80,7 +80,7 @@ public class Monster : Character
         while (true)
         {
             //distance 구하는 과정
-            vec2Target = target.position - this.transform.position;
+            vec2Target = target.transform.position - this.transform.position;
             vec2Target.y = 0;
             distance = vec2Target.magnitude;
 
@@ -112,7 +112,7 @@ public class Monster : Character
     }
     private void Start()
     {
-        target = Player.Instance.transform;
+        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
         StartCoroutine(MonsterAI());
     }
 }

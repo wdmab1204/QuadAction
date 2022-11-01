@@ -4,11 +4,12 @@ using DG.Tweening;
 
 public class HpSlider : MonoBehaviour
 {
+    public Character character;
     private Slider slider;
 
     public void UpdateValue()
     {
-        int currentHp = Player.Instance.GetHp();
+        int currentHp = character.GetHp();
         slider.DOValue(currentHp, 3.0f);
     }
 
@@ -19,7 +20,7 @@ public class HpSlider : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        slider.maxValue = Player.Instance.GetHp();
+        slider.maxValue = character.GetHp();
         UpdateValue();
     }
 }
