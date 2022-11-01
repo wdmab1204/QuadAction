@@ -126,7 +126,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-
+        timerText.rectTransform.DOAnchorPosX(-250.0f, 1.0f).From(true);
+        scoreText.rectTransform.DOAnchorPosX(250.0f, 1.0f).From(true);
     }
 
     private void Update()

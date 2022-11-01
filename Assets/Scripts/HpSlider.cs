@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class HpSlider : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class HpSlider : MonoBehaviour
     public void UpdateValue()
     {
         int currentHp = Player.Instance.GetHp();
-        slider.value = currentHp;
+        slider.DOValue(currentHp, 3.0f);
     }
 
     private void Awake()
@@ -19,6 +20,6 @@ public class HpSlider : MonoBehaviour
     void Start()
     {
         slider.maxValue = Player.Instance.GetHp();
-        slider.value = Player.Instance.GetHp();
+        UpdateValue();
     }
 }
