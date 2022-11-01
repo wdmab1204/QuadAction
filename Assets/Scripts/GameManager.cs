@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text gotItemText;
+    [SerializeField] private RectTransform pausePanel;
     #endregion
 
     #region GameRule
@@ -91,17 +92,42 @@ public class GameManager : MonoBehaviour
     Sequence s;
     public void SetGotItemText(string text)
     {
-        gotItemText.SetText(text);
+        float distance = 60.0f;
 
+        gotItemText.SetText(text);
         s = DOTween.Sequence();
         s.SetAutoKill(false);
-        s.Append(gotItemText.rectTransform.DOAnchorPosY(60.0f, 3.0f).SetEase(Ease.OutExpo));
+        s.Append(gotItemText.rectTransform.DOAnchorPosY(distance, 3.0f).SetEase(Ease.OutExpo));
         s.Join(gotItemText.DOFade(1.0f, 2.0f));
         s.Append(gotItemText.DOFade(0.0f, 0.2f));
+        s.OnComplete(() => {
+            gotItemText.rectTransform.anchoredPosition += Vector2.down * distance;
+        });
 
-        s.Restart();
-        //gotItemText.rectTransform.DOAnchorPosY(60.0f, 3.0f).SetEase(Ease.OutExpo);
-        //gotItemText.DOFade(1.0f, 2.0f);
+    }
+
+    bool isOpened = false;
+    Tweener tweenner;
+    public void AnimatingPausePanel(bool onoff)
+    {
+        if (onoff)
+        {
+            //패널이 닫히는 애니메이션
+            tweenner.Kill();
+            tweenner = pausePanel.transform.DOScale(new Vector3(0, 0, 0), 0.25f).SetEase(Ease.InOutExpo);//.OnComplete(() => pausePanel.gameObject.SetActive(false));
+
+            Time.timeScale = 1.0f;
+
+        }
+        else
+        {
+            
+            //패널이 열리는 애니메이션
+            tweenner.Kill();
+            tweenner = pausePanel.transform.DOScale(new Vector3(1, 1, 1), 0.5f).SetEase(Ease.InExpo).SetEase(Ease.OutBounce).SetUpdate(true);
+
+            Time.timeScale = 0.0f;
+        }
     }
 
     private void SummonMob(GameObject mob)
@@ -128,11 +154,26 @@ public class GameManager : MonoBehaviour
     {
         timerText.rectTransform.DOAnchorPosX(-250.0f, 1.0f).From(true);
         scoreText.rectTransform.DOAnchorPosX(250.0f, 1.0f).From(true);
+
+
+        #region Sequence Init
+        // 아이템 텍스트 
+        
+
+        
+
+        #endregion
     }
 
     private void Update()
     {
         Timer();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            AnimatingPausePanel(isOpened);
+            isOpened = !isOpened;
+        }
     }
 
 }

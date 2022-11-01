@@ -198,6 +198,7 @@ public class Player : Character
         Attack();
     }
 
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

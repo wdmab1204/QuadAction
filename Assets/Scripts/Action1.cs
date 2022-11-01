@@ -38,6 +38,7 @@ public class Action1
 
         while (doit)
         {
+
             for (int i = 0; i < objCount; i++)
             {
                 deg += Time.deltaTime * objSpeed;
@@ -45,13 +46,19 @@ public class Action1
                 var rad = Mathf.Deg2Rad * (deg + (i * (360 / objCount)));
                 var x = circleR * Mathf.Sin(rad);
                 var z = circleR * Mathf.Cos(rad);
+
                 objs[i].position = t.position + new Vector3(x, 1.5f, z);
                 objs[i].rotation = Quaternion.Euler(0, (deg + (i * (360 / objCount))) * -1, 0);
             }
 
             yield return null;
-
         }
+    }
+
+    public void Stop()
+    {
+        doit = false;
+            
     }
 
     public void StopAction()

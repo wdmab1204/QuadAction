@@ -8,6 +8,9 @@ public class test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.DOMoveX(2, 5).From(true);
+
     }
+
+    public void hello() { transform.DOMoveX(10, 3); }
+    public void bye() { transform.DOMoveX(0, 3); }
 }
