@@ -76,8 +76,6 @@ public class GameManager : MonoBehaviour
     
     public int AttackToTarget(int damage, Character target)
     {
-        Debug.Log("I hurt..!" + target.name);
-
         int target_hp = target.GetHp();
         target_hp -= damage;
         target.SetHp(target_hp);

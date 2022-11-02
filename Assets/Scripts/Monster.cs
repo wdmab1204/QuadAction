@@ -15,7 +15,6 @@ public class Monster : Character
     [Header("Following variable")]
     private Rigidbody rb;
     private Character target;
-    private Collider col;
 
     void FollowTarget()
     {
@@ -33,25 +32,41 @@ public class Monster : Character
     [Header("Dying variable")]
     private bool dying;
     public float dyingTime;
+    public GameObject dieParticle;
     public GameObject treasureBoxPrefab;
 
     public override void SetHp(int hp)
     {
         base.SetHp(hp);
-        if (GetHp() <= 0) Die();
     }
 
     private int score = 5;
+    private int percent = 5;
     public override void Die()
     {
         dying = true;
         GameManager.Instance.SetScore(score);
         anim.SetTrigger("Die");
         Destroy(this.gameObject, dyingTime);
-        col.enabled = false;
         //rb.useGravity = false;
 
+
+        //Particle 생성
+        ParticleSystem particle = Instantiate<GameObject>(dieParticle).GetComponent<ParticleSystem>();
+        particle.transform.position = this.transform.position;
+        particle.Play();
+
         
+        //보물상자 확률생성
+        bool[] arr = new bool[100];
+        for (int i = 0; i < percent; i++) arr[i] = true;
+        int randI = Random.Range(1, 100);
+
+        if (arr[randI] == true)
+        {
+            GameObject obj = Instantiate<GameObject>(treasureBoxPrefab);
+            obj.transform.position = this.transform.position;
+        }
     }
     #endregion
 
@@ -125,7 +140,6 @@ public class Monster : Character
     {
         rb = GetComponent<Rigidbody>();
         //anim = GetComponent<Animator>();
-        col = GetComponent<Collider>();
         dying = false;
     }
     private void Start()
