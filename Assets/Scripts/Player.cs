@@ -135,8 +135,9 @@ public class Player : Character
     #endregion
 
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         weaponController = FindObjectOfType<WeaponController>();
         col = GetComponent<Collider>();
         rig = GetComponent<Rigidbody>();

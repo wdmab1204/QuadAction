@@ -76,7 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c4746ba3ecbaf4c9e66d593e9c449c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 20
+  max_hp: 2
+  hp: 0
   atk: 1
   speed: 5
   anim: {fileID: 5218316972540469153}

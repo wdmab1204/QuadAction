@@ -87,6 +87,16 @@ public class GameManager : MonoBehaviour
         return target_hp;
     }
 
+    public int HealToTarget(int heal, Character target)
+    {
+        int target_hp = target.GetHp();
+        target_hp += heal;
+        target.SetHp(target_hp);
+        playerHpSlider.UpdateValue();
+
+        return target_hp;
+    }
+
     Sequence s;
     public void SetGotItemText(string text)
     {

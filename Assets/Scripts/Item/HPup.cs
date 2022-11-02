@@ -14,7 +14,7 @@ namespace ItemNameSpace
         }
         public override void Use(Character user)
         {
-            user.SetHp(user.GetHp() + 5);
+            GameManager.Instance.HealToTarget(5, user);
 
             //이펙트나 효과음 추가
         }

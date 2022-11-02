@@ -41,7 +41,7 @@ public class Monster : Character
     }
 
     private int score = 5;
-    private int percent = 5;
+    private int percent = 15;
     public override void Die()
     {
         dying = true;
@@ -60,7 +60,7 @@ public class Monster : Character
         //보물상자 확률생성
         bool[] arr = new bool[100];
         for (int i = 0; i < percent; i++) arr[i] = true;
-        int randI = Random.Range(1, 100);
+        int randI = Random.Range(0, 100);
 
         if (arr[randI] == true)
         {
@@ -138,6 +138,7 @@ public class Monster : Character
 
     private void Awake()
     {
+        base.Awake();
         rb = GetComponent<Rigidbody>();
         //anim = GetComponent<Animator>();
         dying = false;
