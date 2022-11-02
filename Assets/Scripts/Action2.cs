@@ -47,7 +47,7 @@ public class Action2
         while (doit)
         {
             
-            while (Vector3.Distance(point,objs[0].position)<=distance) // 일정거리까지 움직일때까지 반복
+            while ((point-objs[0].position).sqrMagnitude<=distance) // 일정거리까지 움직일때까지 반복
             {
                 var rot = deg / (objCount - 1);
                 for (int i = 0; i < objCount; i++)

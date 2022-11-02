@@ -66,9 +66,18 @@ public class Player : Character
     #region damaged
 
     [SerializeField] private Collider col;
-    private void OnTriggerEnter(Collider collision)
+    //private void OnTriggerEnter(Collider collision)
+    //{
+    //    var enemy = collision.GetComponent<Monster>();
+    //    if (enemy != null)
+    //    {
+    //        OnDamaged(collision.transform.position);
+    //        GameManager.Instance.AttackToTarget(enemy.GetATK(), this);
+    //    }
+    //}
+    private void OnCollisionEnter(Collision collision)
     {
-        var enemy = collision.GetComponent<Monster>();
+        var enemy = collision.gameObject.GetComponent<Monster>();
         if (enemy != null)
         {
             OnDamaged(collision.transform.position);
@@ -82,7 +91,7 @@ public class Player : Character
 
         int dirc_x = transform.position.x - targetPos.x > 0 ? 1 : -1;
         int dirc_z = transform.position.z - targetPos.z > 0 ? 1 : -1;
-        rig.AddForce(new Vector3(dirc_x, 1, dirc_z) * 10.0f, ForceMode.Impulse);
+        rig.AddForce(new Vector3(dirc_x, 2, dirc_z) * 10.0f, ForceMode.Impulse);
 
         Invoke("OffDamaged", 2);
     }

@@ -13,7 +13,6 @@ public class Monster : Character
 
     #region Follow Player
     [Header("Following variable")]
-    [SerializeField] private float moveSpeed = 3f;
     private Rigidbody rb;
     private Character target;
     private Collider col;
@@ -22,7 +21,8 @@ public class Monster : Character
     {
         if (dying) return;
 
-        transform.position = Vector3.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
+        //transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+        rb.velocity = (target.transform.position-transform.position).normalized * speed;
         transform.LookAt(target.transform);
     }
 
@@ -72,6 +72,24 @@ public class Monster : Character
     }
     #endregion
 
+    public override void beDamaged()
+    {
+        //var v = transform.position - target.transform.position.normalized;
+        //rb.AddForce(v ,ForceMode.Impulse);
+        StartCoroutine(force());
+    }
+
+    IEnumerator force()
+    {
+        float time = 0;
+        while (time <= 0.5f)
+        {
+            time += Time.fixedDeltaTime;
+            rb.AddForce(transform.position - target.transform.position.normalized);
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
     private IEnumerator MonsterAI()
     {
         Vector3 vec2Target;
@@ -105,7 +123,7 @@ public class Monster : Character
 
     private void Awake()
     {
-        //rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         //anim = GetComponent<Animator>();
         col = GetComponent<Collider>();
         dying = false;
