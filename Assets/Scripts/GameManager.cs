@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
         if (null == instance)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(this.gameObject);
         }
         else
         {
@@ -55,11 +55,41 @@ public class GameManager : MonoBehaviour
         timerText.text = (float)Math.Round(currentTime, 2) + "";
         if (currentTime <= 0.0f)
         {
-            //game over
+            //GameOver();
         }
     }
     #endregion
 
+    #region GameOver
+    [SerializeField] private RectTransform blackScreen;
+    [SerializeField] private GameObject mainCamera;
+    [SerializeField] private GameObject produceCamera;
+    [SerializeField] private TextMeshProUGUI scoreResultText;
+    Sequence ss;
+    public void GameOver()
+    {
+        blackScreen.gameObject.SetActive(true);
+        ss = DOTween.Sequence();
+        ss.SetUpdate(true);
+        ss.Append(blackScreen.DOAnchorPosX(0.0f, 0.7f));
+        ss.AppendCallback(
+            ()=>
+            {
+                mainCamera.SetActive(false);
+                produceCamera.SetActive(true);
+                timerText.enabled = false;
+                scoreText.enabled = false;
+                playerHpSlider.gameObject.SetActive(false);
+                scoreResultText.enabled = true;
+                scoreResultText.text = currentScore + "";
+                Time.timeScale = 0.0f;
+            });
+        ss.Append(blackScreen.DOAnchorPosX(-Screen.width, 0.4f));
+
+        
+    }
+
+    #endregion
 
     #region Score
     private int currentScore = 0;
@@ -143,13 +173,6 @@ public class GameManager : MonoBehaviour
         Instantiate(mob);
     }
 
-    private bool CheckTimeOver()
-    {
-        return true;
-    }
-
-
-
     private void Awake()
     {
         SingletonInit();
@@ -163,14 +186,11 @@ public class GameManager : MonoBehaviour
         timerText.rectTransform.DOAnchorPosX(-250.0f, 1.0f).From(true);
         scoreText.rectTransform.DOAnchorPosX(250.0f, 1.0f).From(true);
 
+        blackScreen.anchoredPosition = new Vector2(Screen.width, blackScreen.anchoredPosition.y);
+        scoreResultText.enabled = false;
 
-        #region Sequence Init
-        // 아이템 텍스트 
-        
+        Invoke("GameOver", 2.0f);
 
-        
-
-        #endregion
     }
 
     private void Update()

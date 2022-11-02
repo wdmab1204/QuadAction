@@ -127,6 +127,15 @@ public class Player : Character
     //}
     #endregion
 
+
+    #region Die
+    public override void Die()
+    {
+        //base.Die();
+        GameManager.Instance.GameOver();
+    }
+    #endregion
+
     #region Animation
     [SerializeField] private Animator anim;
 
