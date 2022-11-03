@@ -15,7 +15,7 @@ public class TreasureBox : MonoBehaviour
             //그 아이템을 사용 or 플레이어에게 적용
             item.Use(collision.gameObject.GetComponent<Character>());
             //위 효과를 텍스트로 띄움(게임매니저를 통해서)
-            GameManager.Instance.SetGotItemText(item.itemType + " was used");
+            GameManager.Instance.SendItemMessage(item.itemType + " was used");
             Debug.Log(item.name + "을(를) 사용하였습니다");
 
             //트레져박스 맵에서 삭제

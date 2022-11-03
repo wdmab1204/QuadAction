@@ -136,7 +136,7 @@ public class Monster : Character
     }
 
 
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
         rb = GetComponent<Rigidbody>();
