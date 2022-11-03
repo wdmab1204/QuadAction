@@ -301,7 +301,8 @@ public class GameManager : MonoBehaviour
 
         startButton.onClick.AddListener(StartMain);
 
-        StartOpening();
+        //StartOpening();
+        StartMain();
         //Invoke("GameOver", 2.0f);
 
     }
