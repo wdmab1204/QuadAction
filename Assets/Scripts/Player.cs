@@ -168,13 +168,24 @@ public class Player : Character
     [SerializeField] private float distance = 1.0f;
     void Start()
     {
-        action = new Action1();
-        action.Init(ball, this.transform, objCount, objSpeed, circleR);
-        StartCoroutine(action.UpdateAction());
 
         //action2 = new Action2();
         //action2.Init(ball, this.transform, objCount2, theta, objSpeed2, distance);
         //StartCoroutine(action2.UpdateAction());
+    }
+
+    public void CreateAction()
+    {
+        action = new Action1();
+        action.Init(ball, this.transform, objCount, objSpeed, circleR);
+        StartCoroutine(action.UpdateAction());
+    }
+
+    public void CreateAction2()
+    {
+        action = new Action1();
+        action.Init(ball, this.transform, objCount, objSpeed, circleR + 4);
+        StartCoroutine(action.UpdateAction());
     }
 
     // Update is called once per frame
