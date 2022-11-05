@@ -21,6 +21,6 @@ public class HpSlider : MonoBehaviour
     void Start()
     {
         slider.maxValue = character.GetHp();
-        UpdateValue();
+        //UpdateValue();
     }
 }

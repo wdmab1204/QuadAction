@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class GameManager : MonoBehaviour
         if (null == instance)
         {
             instance = this;
-            //DontDestroyOnLoad(this.gameObject);
         }
         else
         {
@@ -64,14 +64,16 @@ public class GameManager : MonoBehaviour
     #region Timer
     [SerializeField] private float maxTime;
     private float currentTime;
-    private void Timer()
+    private IEnumerator Timer()
     {
-        currentTime -= Time.deltaTime;
-        timerText.text = (float)Math.Round(currentTime, 2) + "";
-        if (currentTime <= 0.0f)
+        while (currentTime>0)
         {
-            //GameOver();
+            currentTime -= Time.deltaTime;
+            timerText.text = (float)Math.Round(currentTime, 2) + "";
+            yield return null;
         }
+
+        GameOver();
     }
 
     #endregion
@@ -98,12 +100,13 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1.0f;
         SwitchingCamera(CameraType.Opening_Camera);
+        StartCoroutine(Timer());
     }
     #endregion
 
     #region Main
-    private Vector2 timerTextOriginalPosition;
-    private Vector2 scoreTextOriginalPosition;
+    private Vector3 timerTextOriginalPosition;
+    private Vector3 scoreTextOriginalPosition;
     private void StartMain()
     {
         Time.timeScale = 1.0f;
@@ -117,7 +120,7 @@ public class GameManager : MonoBehaviour
         //scoreText, timerText, hpsliderbar 애니메이션 실행
         timerText.rectTransform.DOAnchorPosX(-250.0f, 1.0f).From(true);
         scoreText.rectTransform.DOAnchorPosX(250.0f, 1.0f).From(true);
-        //updateslider밖에없다
+        playerHpSlider.UpdateValue();
     
 
         //몬스터 스폰 기능
@@ -143,7 +146,7 @@ public class GameManager : MonoBehaviour
                 SwitchingCamera(CameraType.Produce_Camera);
                 scoreResultText.text = currentScore + "";
             });
-        ss.Append(blackScreen.DOAnchorPosX(-Screen.width, 0.4f));
+        ss.Append(blackScreen.DOAnchorPosX(-Screen.width, 0.7f));
     }
     #endregion
 
@@ -166,12 +169,13 @@ public class GameManager : MonoBehaviour
             timerText.gameObject.SetActive(true);
             scoreText.gameObject.SetActive(true);
             gotItemText.gameObject.SetActive(true);
-            //blackscreen 위치초기화
+            blackScreen.gameObject.SetActive(true);
 
             scoreResultText.gameObject.SetActive(false);
 
             startButton.gameObject.SetActive(false);
             titleImage.gameObject.SetActive(false);
+            blackScreen.position = new Vector2(Screen.width, blackScreen.position.y);
             dummy.gameObject.SetActive(false);
         }
         else if (cameraType == CameraType.Produce_Camera)
@@ -184,6 +188,7 @@ public class GameManager : MonoBehaviour
             timerText.gameObject.SetActive(false);
             scoreText.gameObject.SetActive(false);
             gotItemText.gameObject.SetActive(false);
+            //blackScreen.gameObject.SetActive(false);
 
             scoreResultText.gameObject.SetActive(true);
 
@@ -202,6 +207,7 @@ public class GameManager : MonoBehaviour
             timerText.gameObject.SetActive(false);
             scoreText.gameObject.SetActive(false);
             gotItemText.gameObject.SetActive(false);
+            blackScreen.gameObject.SetActive(false);
 
             scoreResultText.gameObject.SetActive(false);
 
@@ -301,10 +307,7 @@ public class GameManager : MonoBehaviour
 
         startButton.onClick.AddListener(StartMain);
 
-        //StartOpening();
-        StartMain();
-        //Invoke("GameOver", 2.0f);
-
+        StartOpening();
     }
 
     private void Update()
