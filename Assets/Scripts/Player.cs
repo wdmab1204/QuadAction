@@ -1,5 +1,5 @@
 using UnityEngine;
-using ItemNameSpace;
+using BuffNameSpace;
 using UnityEngine.UI;
 
 public enum StateType { none, idle, move, attack };

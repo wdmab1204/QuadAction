@@ -1,12 +1,12 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace ItemNameSpace
+namespace BuffNameSpace
 {
-    public class HPup : Item
+    public class HPup : Buff
     {
 
-        public HPup(ItemScriptableObject itemScriptableObject) : base(itemScriptableObject)
+        public HPup(BuffScriptableObject itemScriptableObject) : base(itemScriptableObject)
         {
 
         }

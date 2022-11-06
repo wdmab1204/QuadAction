@@ -1,11 +1,11 @@
-﻿using ItemNameSpace;
+﻿using BuffNameSpace;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ItemNameSpace
+namespace BuffNameSpace
 {
-    public class Action1 : Item
+    public class Action1 : Buff
     {
         private Transform[] objs;
 

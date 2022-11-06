@@ -1,10 +1,10 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace ItemNameSpace
+namespace BuffNameSpace
 {
     [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Object Asset/Skill")]
-    public class SkillScriptableObject : ItemScriptableObject
+    public class SkillScriptableObject : BuffScriptableObject
     {
         public int objCount;
         public float objSpeed;

@@ -1,9 +1,9 @@
-﻿using ItemNameSpace;
+﻿using BuffNameSpace;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Action2 : Item
+public class Action2 : Buff
 {
     private Transform[] objs;
 

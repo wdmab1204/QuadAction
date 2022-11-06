@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private HpSlider playerHpSlider;
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private TMP_Text scoreText;
-    [SerializeField] private TMP_Text gotItemText;
+    [SerializeField] private TMP_Text systemText;
     [SerializeField] private RectTransform blackScreen;
 
     [Header("Produce Scene")]
@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour
             playerHpSlider.gameObject.SetActive(true);
             timerText.gameObject.SetActive(true);
             scoreText.gameObject.SetActive(true);
-            gotItemText.gameObject.SetActive(true);
+            systemText.gameObject.SetActive(true);
             blackScreen.gameObject.SetActive(true);
 
             scoreResultText.gameObject.SetActive(false);
@@ -187,7 +187,7 @@ public class GameManager : MonoBehaviour
             playerHpSlider.gameObject.SetActive(false);
             timerText.gameObject.SetActive(false);
             scoreText.gameObject.SetActive(false);
-            gotItemText.gameObject.SetActive(false);
+            systemText.gameObject.SetActive(false);
             //blackScreen.gameObject.SetActive(false);
 
             scoreResultText.gameObject.SetActive(true);
@@ -206,7 +206,7 @@ public class GameManager : MonoBehaviour
             playerHpSlider.gameObject.SetActive(false);
             timerText.gameObject.SetActive(false);
             scoreText.gameObject.SetActive(false);
-            gotItemText.gameObject.SetActive(false);
+            systemText.gameObject.SetActive(false);
             blackScreen.gameObject.SetActive(false);
 
             scoreResultText.gameObject.SetActive(false);
@@ -248,18 +248,18 @@ public class GameManager : MonoBehaviour
     }
 
     Sequence s;
-    public void SendItemMessage(string text)
+    public void SendSystemMessage(string text)
     {
         float distance = 60.0f;
 
-        gotItemText.SetText(text);
+        systemText.SetText(text);
         s = DOTween.Sequence();
         s.SetAutoKill(false);
-        s.Append(gotItemText.rectTransform.DOAnchorPosY(distance, 3.0f).SetEase(Ease.OutExpo));
-        s.Join(gotItemText.DOFade(1.0f, 2.0f));
-        s.Append(gotItemText.DOFade(0.0f, 0.2f));
+        s.Append(systemText.rectTransform.DOAnchorPosY(distance, 3.0f).SetEase(Ease.OutExpo));
+        s.Join(systemText.DOFade(1.0f, 2.0f));
+        s.Append(systemText.DOFade(0.0f, 0.2f));
         s.OnComplete(() => {
-            gotItemText.rectTransform.anchoredPosition += Vector2.down * distance;
+            systemText.rectTransform.anchoredPosition += Vector2.down * distance;
         });
 
     }

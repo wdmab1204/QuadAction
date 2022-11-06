@@ -1,9 +1,9 @@
 ﻿
-namespace ItemNameSpace
+namespace BuffNameSpace
 {
-    public class SpeedUp : Item
+    public class SpeedUp : Buff
     {
-        public SpeedUp(ItemScriptableObject itemScriptableObject) : base(itemScriptableObject)
+        public SpeedUp(BuffScriptableObject itemScriptableObject) : base(itemScriptableObject)
         {
 
         }

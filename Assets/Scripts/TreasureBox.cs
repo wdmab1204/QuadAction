@@ -1,4 +1,4 @@
-﻿using ItemNameSpace;
+﻿using BuffNameSpace;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,23 +6,23 @@ using UnityEngine;
 
 public class TreasureBox : MonoBehaviour
 {
-    [SerializeField] private ItemScriptableObject hpup;
-    [SerializeField] private ItemScriptableObject speedup;
-    [SerializeField] private ItemScriptableObject action1;
-    [SerializeField] private ItemScriptableObject action2;
-    private List<Item> itemList;
+    [SerializeField] private BuffScriptableObject hpup;
+    [SerializeField] private BuffScriptableObject speedup;
+    [SerializeField] private BuffScriptableObject action1;
+    [SerializeField] private BuffScriptableObject action2;
+    private List<Buff> buffList;
 
     private void Awake()
     {
-        itemList = new List<Item>();
+        buffList = new List<Buff>();
     }
 
     private void Start()
     {
-        itemList.Add(new HPup(hpup));
-        itemList.Add(new SpeedUp(speedup));
-        itemList.Add(new Action1((SkillScriptableObject)action1));
-        itemList.Add(new Action2((SkillScriptableObject)action2));
+        buffList.Add(new HPup(hpup));
+        buffList.Add(new SpeedUp(speedup));
+        buffList.Add(new Action1((SkillScriptableObject)action1));
+        buffList.Add(new Action2((SkillScriptableObject)action2));
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -30,15 +30,15 @@ public class TreasureBox : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             var user = collision.gameObject.GetComponent<Player>();
-            int randIndex = Random.Range(0, itemList.Count);
+            int randIndex = Random.Range(0, buffList.Count);
 
-            var item = itemList[1];
+            var item = buffList[randIndex];
             item.SetUser(user);
 
-            var itemmanage = collision.gameObject.GetComponent<ItemManager>();
-            itemmanage.AddItemListener(item);
+            var itemmanage = collision.gameObject.GetComponent<BuffManager>();
+            itemmanage.AddBuffListener(item);
 
-            GameManager.Instance.SendItemMessage(item.name + " was used");
+            GameManager.Instance.SendSystemMessage(item.name + " was used");
 
             //트레져박스 맵에서 삭제
             Destroy(this.gameObject);
