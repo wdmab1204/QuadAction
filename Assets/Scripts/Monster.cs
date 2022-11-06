@@ -45,10 +45,9 @@ public class Monster : Character
     public override void Die()
     {
         dying = true;
-        GameManager.Instance.SetScore(score);
-        anim.SetTrigger("Die");
-        Destroy(this.gameObject, dyingTime);
-        //rb.useGravity = false;
+        GameManager.Instance.SetScore(score); //ui에 score 반영
+        anim.SetTrigger("Die"); //Die 애니메이션 실행
+        Destroy(this.gameObject, dyingTime); //dyingTime만큼의 시간 이후 자신의 오브젝트 삭제
 
 
         //Particle 생성

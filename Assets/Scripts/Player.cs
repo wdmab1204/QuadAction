@@ -1,6 +1,10 @@
 using UnityEngine;
+using ItemNameSpace;
+using UnityEngine.UI;
 
 public enum StateType { none, idle, move, attack };
+
+public delegate void PlayerSkill();
 
 public class Player : Character
 {
@@ -44,25 +48,6 @@ public class Player : Character
     }
     #endregion
 
-    #region Attack
-
-    private WeaponController weaponController;
-
-    private void Attack()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            anim.SetTrigger("Attack");
-            stateType = StateType.attack;
-            weaponController.StartAttack(0);
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            anim.SetTrigger("Kick");
-            stateType = StateType.attack;
-            weaponController.StartAttack(1);
-        }
-    }
     #region damaged
 
     [SerializeField] private Collider col;
@@ -102,7 +87,6 @@ public class Player : Character
     }
 
     #endregion
-    #endregion
 
 
     #region beDamaged
@@ -119,19 +103,12 @@ public class Player : Character
         }
     }
 
-    //public override void beDamaged()
-    //{
-    //    var random = Random.Range(0f, 360f);
-    //    _particle.transform.rotation = Quaternion.Euler(0, random, 0);
-    //    _particle.Play();
-    //}
     #endregion
 
 
     #region Die
     public override void Die()
     {
-        //base.Die();
         GameManager.Instance.GameOver();
     }
     #endregion
@@ -147,59 +124,25 @@ public class Player : Character
     protected override void Awake()
     {
         base.Awake();
-        weaponController = FindObjectOfType<WeaponController>();
         col = GetComponent<Collider>();
         rig = GetComponent<Rigidbody>();
     }
 
-    Action1 action;
-    Action2 action2;
-    [SerializeField] private GameObject ball;
-
-    [Header("Action 1")]
-    [SerializeField] private int objCount = 1;
-    [SerializeField] private float objSpeed = 1.0f;
-    [SerializeField] private float circleR = 1.0f;
-
-    [Header("Action 2")]
-    [SerializeField] private int objCount2 = 1;
-    [SerializeField] private float theta = 30.0f;
-    [SerializeField] private float objSpeed2 = 1.0f;
-    [SerializeField] private float distance = 1.0f;
+    
     void Start()
     {
 
-        //action2 = new Action2();
-        //action2.Init(ball, this.transform, objCount2, theta, objSpeed2, distance);
-        //StartCoroutine(action2.UpdateAction());
-    }
-
-    public void CreateAction()
-    {
-        action = new Action1();
-        action.Init(ball, this.transform, objCount, objSpeed, circleR);
-        StartCoroutine(action.UpdateAction());
-    }
-
-    public void CreateAction2()
-    {
-        action = new Action1();
-        action.Init(ball, this.transform, objCount, objSpeed, circleR + 4);
-        StartCoroutine(action.UpdateAction());
     }
 
     // Update is called once per frame
     void Update()
     {
         Move();
-        Attack();
     }
 
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-
-        // if action2가 실행중인가?
     }
 }

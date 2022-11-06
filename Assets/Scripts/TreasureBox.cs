@@ -1,55 +1,47 @@
 ﻿using ItemNameSpace;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
 public class TreasureBox : MonoBehaviour
 {
-    public Item[] items;
-    public bool isWeapon1;
-    public bool isWeapon2;
+    [SerializeField] private ItemScriptableObject hpup;
+    [SerializeField] private ItemScriptableObject speedup;
+    [SerializeField] private ItemScriptableObject action1;
+    [SerializeField] private ItemScriptableObject action2;
+    private List<Item> itemList;
+
+    private void Awake()
+    {
+        itemList = new List<Item>();
+    }
+
+    private void Start()
+    {
+        itemList.Add(new HPup(hpup));
+        itemList.Add(new SpeedUp(speedup));
+        itemList.Add(new Action1((SkillScriptableObject)action1));
+        itemList.Add(new Action2((SkillScriptableObject)action2));
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             var user = collision.gameObject.GetComponent<Player>();
+            int randIndex = Random.Range(0, itemList.Count);
 
-            if (isWeapon1 == true)
-            {
-                user.CreateAction();
-                Destroy(this.gameObject);
-                return;
-            }
-            if (isWeapon2 == true)
-            {
-                user.CreateAction2();
-                Destroy(this.gameObject);
-                return;
-            }
-            //아이템중 랜덤으로 하나가 나옴
-            Item item = SetItemfromType(items[Random.Range(0, items.Length)]);
-            //그 아이템을 사용 or 플레이어에게 적용
-            item.Use(user);
-            //위 효과를 텍스트로 띄움(게임매니저를 통해서)
-            GameManager.Instance.SendItemMessage(item.itemType + " was used");
-            Debug.Log(item.name + "을(를) 사용하였습니다");
+            var item = itemList[1];
+            item.SetUser(user);
+
+            var itemmanage = collision.gameObject.GetComponent<ItemManager>();
+            itemmanage.AddItemListener(item);
+
+            GameManager.Instance.SendItemMessage(item.name + " was used");
 
             //트레져박스 맵에서 삭제
             Destroy(this.gameObject);
         }
-    }
-
-    private Item SetItemfromType(Item item)
-    {
-        Item newItem = item;
-        if (item.itemType == ItemType.HPup)
-            newItem = new HPup(item);
-        else if (item.itemType == ItemType.SpeedUp)
-            newItem = new SpeedUp(item);
-        else
-            newItem.name = "Error";
-
-
-        return newItem;
     }
 }

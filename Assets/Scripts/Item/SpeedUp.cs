@@ -3,17 +3,25 @@ namespace ItemNameSpace
 {
     public class SpeedUp : Item
     {
-        public SpeedUp(Item item)
+        public SpeedUp(ItemScriptableObject itemScriptableObject) : base(itemScriptableObject)
         {
-            this.name = item.name;
-            this.icon = item.icon;
-            this.itemType = item.itemType;
+
         }
-        public override void Use(Character user)
+
+        public override void Exit()
+        {
+
+        }
+
+        public override void Start()
         {
             user.SetSpeed(user.GetSpeed() + 5.0f);
-
-            //이펙트나 효과음 추가
         }
+
+        public override void Update()
+        {
+
+        }
+
     }
 }

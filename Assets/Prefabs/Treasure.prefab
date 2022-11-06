@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 968a4e9a82f62854ab8aa0704c4754b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 11400000, guid: 4797c90b9ee1f7c4a926266ab953d39e, type: 2}
-  - {fileID: 11400000, guid: 0ddb3671a31f789439cce5607c6f3312, type: 2}
+  hpup: {fileID: 11400000, guid: 0ddb3671a31f789439cce5607c6f3312, type: 2}
+  speedup: {fileID: 11400000, guid: e0342b85c4ed8e042afac25d2d8856d7, type: 2}
+  action1: {fileID: 11400000, guid: d8926aec0f3a7c34b89dd54620f451bf, type: 2}
+  action2: {fileID: 11400000, guid: 6811b6331f6bf004094a0c0addf6a294, type: 2}

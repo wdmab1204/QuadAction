@@ -2,17 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
+using System;
 
 public class test : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    delegate void MyDelegate();
+    MyDelegate attack;
+    void Update()
     {
-        Sequence s = DOTween.Sequence();
-        s.Append(transform.DOMoveX(10, 3));
-        s.Append(transform.DOMoveX(0, 3));
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            attack?.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            attack += PrimaryAttack;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            attack += SecondaryAttack;
+        }
+    }
+    void PrimaryAttack()
+    {
+        // Primary attack
+    }
+    void SecondaryAttack()
+    {
+        // Secondary attack
     }
 
-    public void hello() { transform.DOMoveX(10, 3); }
-    public void bye() { transform.DOMoveX(0, 3); }
 }

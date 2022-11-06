@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public abstract class Character : MonoBehaviour
 {
     public virtual int GetHp() { return hp; }
     public virtual void SetHp(int hp) { this.hp = (hp < max_hp) ? hp : max_hp; }

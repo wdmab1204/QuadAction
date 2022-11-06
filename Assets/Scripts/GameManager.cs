@@ -306,6 +306,8 @@ public class GameManager : MonoBehaviour
         //scoreResultText.enabled = false;
 
         startButton.onClick.AddListener(StartMain);
+        timerTextOriginalPosition = timerText.rectTransform.anchoredPosition;
+        scoreTextOriginalPosition = scoreText.rectTransform.anchoredPosition;
 
         StartOpening();
     }
