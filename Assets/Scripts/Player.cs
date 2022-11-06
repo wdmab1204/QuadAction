@@ -123,7 +123,6 @@ public class Player : Character
         buffManager = new BuffManager();
     }
 
-    
     void Start()
     {
 

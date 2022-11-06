@@ -41,7 +41,7 @@ namespace BuffNameSpace
         {
             for (int i = 0; i < objCount; i++)
             {
-                deg += Time.deltaTime * objSpeed;
+                deg += Time.deltaTime * (objSpeed / objCount);
 
                 var rad = Mathf.Deg2Rad * (deg + (i * (360 / objCount)));
                 var x = circleR * Mathf.Sin(rad);

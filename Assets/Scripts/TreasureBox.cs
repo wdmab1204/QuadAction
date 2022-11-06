@@ -11,6 +11,7 @@ public class TreasureBox : MonoBehaviour
     [SerializeField] private BuffScriptableObject action1;
     [SerializeField] private BuffScriptableObject action2;
     private List<Buff> buffList;
+    public bool onlyAction1;
 
     private void Awake()
     {
@@ -31,6 +32,8 @@ public class TreasureBox : MonoBehaviour
         {
             var user = collision.gameObject.GetComponent<Player>();
             int randIndex = Random.Range(0, buffList.Count);
+
+            if (onlyAction1) randIndex = 2;
 
             var item = buffList[randIndex];
             item.SetUser(user);
