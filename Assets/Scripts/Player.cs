@@ -88,7 +88,6 @@ public class Player : Character
 
     #endregion
 
-
     #region beDamaged
     [SerializeField] private ParticleSystem _particle;
     public ParticleSystem particle
@@ -105,14 +104,6 @@ public class Player : Character
 
     #endregion
 
-
-    #region Die
-    public override void Die()
-    {
-        GameManager.Instance.GameOver();
-    }
-    #endregion
-
     #region Animation
     [SerializeField] private Animator anim;
 
@@ -120,12 +111,16 @@ public class Player : Character
     private void Run() { anim.SetBool("Move", true); }
     #endregion
 
+    private BuffManager buffManager;
+    public BuffManager BuffManager { get { return buffManager; } }
+
 
     protected override void Awake()
     {
         base.Awake();
         col = GetComponent<Collider>();
         rig = GetComponent<Rigidbody>();
+        buffManager = new BuffManager();
     }
 
     
@@ -138,6 +133,7 @@ public class Player : Character
     void Update()
     {
         Move();
+        buffManager.Update();
     }
 
 

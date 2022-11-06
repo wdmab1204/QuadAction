@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BuffNameSpace
 {
-    public class BuffManager : MonoBehaviour
+    public class BuffManager
     {
         PlayerSkill playerSkill;
 
@@ -19,7 +19,7 @@ namespace BuffNameSpace
             buff.Exit();
         }
 
-        private void Update()
+        public void Update()
         {
             playerSkill?.Invoke();
         }

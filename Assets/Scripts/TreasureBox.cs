@@ -35,8 +35,8 @@ public class TreasureBox : MonoBehaviour
             var item = buffList[randIndex];
             item.SetUser(user);
 
-            var itemmanage = collision.gameObject.GetComponent<BuffManager>();
-            itemmanage.AddBuffListener(item);
+            var buffManager = user.BuffManager;
+            buffManager.AddBuffListener(item);
 
             GameManager.Instance.SendSystemMessage(item.name + " was used");
 
