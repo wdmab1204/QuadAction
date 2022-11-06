@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Pool;
 
 enum MonsterBehaviourType { FollowTarget, Attack };
 
@@ -134,7 +135,15 @@ public class Monster : Character
         
     }
 
-
+    private IObjectPool<Monster> monsterPool;
+    public void SetPool(IObjectPool<Monster> pool)
+    {
+        monsterPool = pool;
+    }
+    private void OnBecameInvisible()
+    {
+        monsterPool.Release(this);
+    }
     protected override void Awake()
     {
         base.Awake();
