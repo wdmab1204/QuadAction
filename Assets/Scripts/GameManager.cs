@@ -49,11 +49,6 @@ public class GameManager : MonoBehaviour
     [Header("Produce Scene")]
     [SerializeField] private TextMeshProUGUI scoreResultText;
 
-    [Header("Start Scene")]
-    [SerializeField] private Button startButton;
-    [SerializeField] private GameObject titleImage;
-    [SerializeField] private GameObject dummy;
-
     [Header("Pause")]
     [SerializeField] private RectTransform pausePanel;
     #endregion
@@ -99,7 +94,7 @@ public class GameManager : MonoBehaviour
     private void StartOpening()
     {
         Time.timeScale = 1.0f;
-        SwitchingCamera(CameraType.Opening_Camera);
+        SwitchingCamera(CameraType.Main_Camera);
         StartCoroutine(Timer());
     }
     #endregion
@@ -110,7 +105,6 @@ public class GameManager : MonoBehaviour
     private void StartMain()
     {
         Time.timeScale = 1.0f;
-        SwitchingCamera(CameraType.Main_Camera);
 
         //scoreText, timerText 원위치로 시키고
         timerText.rectTransform.anchoredPosition = timerTextOriginalPosition;
@@ -155,7 +149,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject produceCamera;
     [SerializeField] private GameObject openingCamera;
-    private enum CameraType { None, Main_Camera, Opening_Camera, Produce_Camera };
+    private enum CameraType { None, Main_Camera, Produce_Camera };
     [SerializeField] private CameraType cameraType;
     private void SwitchingCamera(CameraType cameraType)
     {
@@ -173,10 +167,7 @@ public class GameManager : MonoBehaviour
 
             scoreResultText.gameObject.SetActive(false);
 
-            startButton.gameObject.SetActive(false);
-            titleImage.gameObject.SetActive(false);
-            blackScreen.position = new Vector2(Screen.width, blackScreen.position.y);
-            dummy.gameObject.SetActive(false);
+            StartMain();
         }
         else if (cameraType == CameraType.Produce_Camera)
         {
@@ -191,30 +182,6 @@ public class GameManager : MonoBehaviour
             //blackScreen.gameObject.SetActive(false);
 
             scoreResultText.gameObject.SetActive(true);
-
-            startButton.gameObject.SetActive(false);
-            titleImage.gameObject.SetActive(false);
-            dummy.gameObject.SetActive(false);
-
-        }
-        else if (cameraType == CameraType.Opening_Camera)
-        {
-            mainCamera.SetActive(false);
-            produceCamera.SetActive(false);
-            openingCamera.SetActive(true);
-
-            playerHpSlider.gameObject.SetActive(false);
-            timerText.gameObject.SetActive(false);
-            scoreText.gameObject.SetActive(false);
-            systemText.gameObject.SetActive(false);
-            blackScreen.gameObject.SetActive(false);
-
-            scoreResultText.gameObject.SetActive(false);
-
-            startButton.gameObject.SetActive(true);
-            titleImage.gameObject.SetActive(true);
-            dummy.gameObject.SetActive(true);
-
         }
 
         this.cameraType = cameraType;
@@ -305,7 +272,6 @@ public class GameManager : MonoBehaviour
     {
         //scoreResultText.enabled = false;
 
-        startButton.onClick.AddListener(StartMain);
         timerTextOriginalPosition = timerText.rectTransform.anchoredPosition;
         scoreTextOriginalPosition = scoreText.rectTransform.anchoredPosition;
 

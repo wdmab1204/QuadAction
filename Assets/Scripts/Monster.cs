@@ -45,7 +45,10 @@ public class Monster : Character
         GameManager.Instance.SetScore(score); //ui에 score 반영
         anim.SetTrigger("Die"); //Die 애니메이션 실행
         //base.Die();
-        monsterPool.Release(this);
+        if (monsterPool != null)
+            monsterPool.Release(this);
+        else
+            base.Die();
 
 
         //Particle 생성
