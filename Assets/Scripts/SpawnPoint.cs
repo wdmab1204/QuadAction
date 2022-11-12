@@ -25,6 +25,7 @@ namespace Assets.Scripts
         private void OnGet(Monster monster)
         {
             monster.gameObject.SetActive(true);
+            monster.transform.position = this.transform.position;
         }
 
         private void OnRelease(Monster monster)
@@ -40,7 +41,10 @@ namespace Assets.Scripts
         private void Update()
         {
             if (Input.GetKey(KeyCode.Space))
+            {
                 monsterPool.Get();
+            }
+                
         }
     }
 }

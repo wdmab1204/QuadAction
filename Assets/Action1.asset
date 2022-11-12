@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Skill 1
   icon: {fileID: 0}
-  itemType: 2
   objCount: 3
   objSpeed: 70
-  circleRadius: 6
+  circleRadius: 8
   objDistance: 0
   objProfab: {fileID: 8819627988498349124, guid: b6b166cecc2a2954d88c5b105c99cbfe, type: 3}
