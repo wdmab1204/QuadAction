@@ -1,5 +1,5 @@
 using UnityEngine;
-using BuffNameSpace;
+using ItemNameSpace;
 using UnityEngine.UI;
 
 public enum StateType { none, idle, move, attack };
@@ -78,12 +78,6 @@ public class Player : Character
         int dirc_z = transform.position.z - targetPos.z > 0 ? 1 : -1;
         rig.AddForce(new Vector3(dirc_x, 2, dirc_z) * 10.0f, ForceMode.Impulse);
 
-        Invoke("OffDamaged", 2);
-    }
-
-    void OffDamaged()
-    {
-        col.enabled = true; //무적 해제
     }
 
     #endregion
@@ -121,11 +115,6 @@ public class Player : Character
         col = GetComponent<Collider>();
         rig = GetComponent<Rigidbody>();
         buffManager = new BuffManager();
-    }
-
-    void Start()
-    {
-
     }
 
     // Update is called once per frame

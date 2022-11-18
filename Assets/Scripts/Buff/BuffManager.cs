@@ -1,27 +1,48 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace BuffNameSpace
+
+namespace ItemNameSpace
 {
     public class BuffManager
     {
-        PlayerSkill playerSkill;
 
-        public void AddBuffListener(Buff buff)
+        Dictionary<string, Item> itemDic;
+
+        public BuffManager()
         {
-            buff.Start();
-            this.playerSkill += buff.Update;
+            itemDic = new Dictionary<string, Item>();
         }
 
-        public void DeleteBuffListener(Buff buff)
+
+        public void AddBuffListener(Item item)
         {
-            this.playerSkill -= buff.Update;
+            //이미 아이템을 가지고있는가?
+            if (itemDic.ContainsKey(item.name))
+            {
+                itemDic[item.name].Upgrade();
+            }
+            else
+            {
+                //가지고 있지 않다면
+                itemDic.Add(item.name, item);
+                itemDic[item.name].Start();
+            }
+
+        }
+
+        public void DeleteBuffListener(Item buff)
+        {
             buff.Exit();
         }
 
         public void Update()
         {
-            playerSkill?.Invoke();
+            foreach(var item in itemDic.Values)
+            {
+                item.Update();
+            }
         }
     }
 }

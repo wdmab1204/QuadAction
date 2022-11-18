@@ -1,9 +1,9 @@
 ﻿
-namespace BuffNameSpace
+namespace ItemNameSpace
 {
-    public class SpeedUp : Buff
+    public class SpeedUp : Item
     {
-        public SpeedUp(BuffScriptableObject itemScriptableObject) : base(itemScriptableObject)
+        public SpeedUp(ItemInfo iteminfo) : base(iteminfo)
         {
 
         }
@@ -23,5 +23,9 @@ namespace BuffNameSpace
 
         }
 
+        public override void Upgrade()
+        {
+            user.SetSpeed(user.GetSpeed() + 5.0f);
+        }
     }
 }

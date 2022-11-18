@@ -280,13 +280,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (cameraType == CameraType.Main_Camera)
-        {
-            //몬스터 스폰 켜기
-            Timer();
-        }
-        
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             AnimatingPausePanel(isOpened);

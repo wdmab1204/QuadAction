@@ -1,15 +1,15 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace BuffNameSpace
+namespace ItemNameSpace
 {
     [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Object Asset/Skill")]
-    public class SkillScriptableObject : BuffScriptableObject
+    public class SkillScriptableObject : ItemScriptableObject
     {
         public int objCount;
         public float objSpeed;
         public float circleRadius;
         public float objDistance;
-        public GameObject objProfab;
+        public GameObject objPrefab;
     }
 }

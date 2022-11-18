@@ -1,12 +1,12 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace BuffNameSpace
+namespace ItemNameSpace
 {
-    public class HPup : Buff
+    public class HPup : Item
     {
 
-        public HPup(BuffScriptableObject itemScriptableObject) : base(itemScriptableObject)
+        public HPup(ItemInfo iteminfo) : base(iteminfo)
         {
 
         }
@@ -26,5 +26,9 @@ namespace BuffNameSpace
 
         }
 
+        public override void Upgrade()
+        {
+            GameManager.Instance.HealToTarget(5, user);
+        }
     }
 }

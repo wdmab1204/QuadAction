@@ -1,4 +1,4 @@
-﻿using BuffNameSpace;
+﻿using ItemNameSpace;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,24 +6,24 @@ using UnityEngine;
 
 public class TreasureBox : MonoBehaviour
 {
-    [SerializeField] private BuffScriptableObject hpup;
-    [SerializeField] private BuffScriptableObject speedup;
-    [SerializeField] private BuffScriptableObject action1;
-    [SerializeField] private BuffScriptableObject action2;
-    private List<Buff> buffList;
+    [SerializeField] private ItemScriptableObject hpup;
+    [SerializeField] private ItemScriptableObject speedup;
+    [SerializeField] private SkillScriptableObject hoverAround;
+    [SerializeField] private SkillScriptableObject action2;
+    private List<Item> buffList;
     public bool onlyAction1;
 
     private void Awake()
     {
-        buffList = new List<Buff>();
+        buffList = new List<Item>();
     }
 
     private void Start()
     {
-        buffList.Add(new HPup(hpup));
-        buffList.Add(new SpeedUp(speedup));
-        buffList.Add(new Action1((SkillScriptableObject)action1));
-        buffList.Add(new Action2((SkillScriptableObject)action2));
+        buffList.Add(new HPup(new ItemInfo(hpup.name, hpup.icon)));
+        buffList.Add(new SpeedUp(new ItemInfo(speedup.name,speedup.icon)));
+        buffList.Add(new HoverAround(new SkillInfo(hoverAround.name,hoverAround.icon,hoverAround.objCount,hoverAround.objSpeed,hoverAround.circleRadius,hoverAround.objDistance,hoverAround.objPrefab)));
+        buffList.Add(new HoverAround(new SkillInfo(action2.name, action2.icon, action2.objCount, action2.objSpeed, action2.circleRadius, action2.objDistance, action2.objPrefab)));
     }
 
     private void OnCollisionEnter(Collision collision)

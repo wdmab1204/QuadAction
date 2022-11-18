@@ -18,4 +18,4 @@ MonoBehaviour:
   objSpeed: 70
   circleRadius: 8
   objDistance: 0
-  objProfab: {fileID: 8819627988498349124, guid: b6b166cecc2a2954d88c5b105c99cbfe, type: 3}
+  objPrefab: {fileID: 8819627988498349124, guid: b6b166cecc2a2954d88c5b105c99cbfe, type: 3}

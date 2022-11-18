@@ -127,8 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 968a4e9a82f62854ab8aa0704c4754b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpup: {fileID: 11400000, guid: 0ddb3671a31f789439cce5607c6f3312, type: 2}
-  speedup: {fileID: 11400000, guid: e0342b85c4ed8e042afac25d2d8856d7, type: 2}
-  action1: {fileID: 11400000, guid: d8926aec0f3a7c34b89dd54620f451bf, type: 2}
+  hpup: {fileID: 11400000, guid: 7b07f745ecb0da4428d2b90f4d6f16ba, type: 2}
+  speedup: {fileID: 11400000, guid: e15dda76ec9123447a865afbbcc33bea, type: 2}
+  hoverAround: {fileID: 11400000, guid: d8926aec0f3a7c34b89dd54620f451bf, type: 2}
   action2: {fileID: 11400000, guid: 6811b6331f6bf004094a0c0addf6a294, type: 2}
   onlyAction1: 1

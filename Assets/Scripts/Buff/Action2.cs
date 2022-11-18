@@ -1,9 +1,9 @@
-﻿using BuffNameSpace;
+﻿using ItemNameSpace;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Action2 : Buff
+public class Action2 : Item
 {
     private Transform[] objs;
 
@@ -15,13 +15,13 @@ public class Action2 : Buff
     private float distance;
     private GameObject ball;
 
-    public Action2(SkillScriptableObject item) : base(item)
+    public Action2(SkillInfo skillInfo) : base(skillInfo.itemInfo)
     {
-        this.objCount = item.objCount;
-        this.objSpeed = item.objSpeed;
-        this.distance = item.objDistance;
+        this.objCount = skillInfo.objCount;
+        this.objSpeed = skillInfo.objSpeed;
+        this.distance = skillInfo.objDistance;
         this.deg = 30.0f;
-        this.ball = item.objProfab;
+        this.ball = skillInfo.objPrefab;
     }
 
     public override void SetUser(Character user)
@@ -76,4 +76,8 @@ public class Action2 : Buff
 
     }
 
+    public override void Upgrade()
+    {
+        throw new System.NotImplementedException();
+    }
 }
