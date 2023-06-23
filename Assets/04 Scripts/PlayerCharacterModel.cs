@@ -17,12 +17,22 @@ public class Data<T>
         }
     }
     public Action<T> onChange;
+
+    public override string ToString()
+    {
+        return v.ToString();
+    }
 }
 
 //MVC : Model
 public static class GameData
 {
-    public static Data<GameObject> playableModel = new Data<GameObject>();
+    private static Data<String> characterName = new Data<String>();
+    public static Data<String> CharacterName
+    {
+        get { return characterName; }
+        set { characterName = value; }
+    }
 }
 
 [CreateAssetMenu(fileName = "Character UI List", menuName = "Data/Character UI List")]

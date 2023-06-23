@@ -72,7 +72,7 @@ public class Player : Character
 
     void OnDamaged(Vector3 targetPos)
     {
-        //col.enabled = false; // ¹«Àû
+        //col.enabled = false; // ï¿½ï¿½ï¿½ï¿½
 
         int dirc_x = transform.position.x - targetPos.x > 0 ? 1 : -1;
         int dirc_z = transform.position.z - targetPos.z > 0 ? 1 : -1;
@@ -99,7 +99,7 @@ public class Player : Character
     #endregion
 
     #region Animation
-    [SerializeField] private Animator anim;
+    private Animator anim;
 
     private void Idle() { anim.SetBool("Move", false); }
     private void Run() { anim.SetBool("Move", true); }
@@ -112,8 +112,13 @@ public class Player : Character
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    public void Init()
+    {
         col = GetComponent<Collider>();
         rig = GetComponent<Rigidbody>();
+        anim = transform.GetChild(0).GetComponent<Animator>();
         buffManager = new BuffManager();
     }
 

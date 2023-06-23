@@ -19,16 +19,21 @@ public class CharacterUIView : MonoBehaviour
 
         for(int i=0; i<characterArray.Length; i++)
         {
-            var box = Instantiate(boxPrefab);
+            //박스 오브젝트 생성 및 Transform 재설
+            var box = Instantiate(boxPrefab);                   
             box.transform.parent = this.transform;
             box.transform.localPosition = new Vector3(box.transform.position.x, box.transform.position.y, 2275);
             box.transform.localScale = new Vector3(75, 75, 75);
-
+                    
+            //캐릭터 모델 생성 및 Transform 재설정
             var characterObject = Instantiate(characterArray[i].Value);
-
             characterObject.transform.parent = box.transform.GetChild(0);
             characterObject.transform.localScale = Vector3.one;
             characterObject.transform.rotation = Quaternion.Euler(-90, 0, 180);
+                 
+            //Text 설정
+            var textUI = box.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>();
+            textUI.text = characterObject.name.Replace("(Clone)", "");
 
             checkboxArray[i] = box.transform.GetChild(1).GetComponent<CheckBox>();
             CheckBox myself = checkboxArray[i];
@@ -51,8 +56,9 @@ public class CharacterUIView : MonoBehaviour
 
         GameObject playerModel = select.transform.parent.GetChild(0).GetChild(0).gameObject;
         print(playerModel.name);
-        GameData.playableModel.Value = playerModel;
+        GameData.CharacterName.Value = playerModel.name.Replace("(Clone)", "");
 
         selectedCheckbox = select;
     }
 }
+                

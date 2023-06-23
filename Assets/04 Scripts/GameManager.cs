@@ -106,22 +106,16 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1.0f;
 
-        //scoreText, timerText ¿øÀ§Ä¡·Î ½ÃÅ°°í
+        //scoreText, timerText ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½Å°ï¿½ï¿½
         timerText.rectTransform.anchoredPosition = timerTextOriginalPosition;
         scoreText.rectTransform.anchoredPosition = scoreTextOriginalPosition;
         blackScreen.anchoredPosition = new Vector2(Screen.width, blackScreen.anchoredPosition.y);
 
-        //scoreText, timerText, hpsliderbar ¾Ö´Ï¸ÞÀÌ¼Ç ½ÇÇà
+        //scoreText, timerText, hpsliderbar ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         timerText.rectTransform.DOAnchorPosX(-250.0f, 1.0f).From(true);
         scoreText.rectTransform.DOAnchorPosX(250.0f, 1.0f).From(true);
         playerHpSlider.UpdateValue();
-    
-
-        //¸ó½ºÅÍ ½ºÆù ±â´É
-
-        //Å¸ÀÌ¸Ó
-
-        //¾÷µ¥ÀÌÆ®¹®¿¡¼­ Ã³¸®ÇØµµ µÉÁöµµ?
+        
     }
     #endregion
 
@@ -190,6 +184,10 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    #region Player
+    public Player player;
+    public PlayerCharacterModel model;
+    #endregion
 
     public int AttackToTarget(int damage, Character target)
     {
@@ -237,7 +235,7 @@ public class GameManager : MonoBehaviour
     {
         if (onoff)
         {
-            //ÆÐ³ÎÀÌ ´ÝÈ÷´Â ¾Ö´Ï¸ÞÀÌ¼Ç
+            //ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½
             tweenner.Kill();
             tweenner = pausePanel.transform.DOScale(new Vector3(0, 0, 0), 0.25f).SetEase(Ease.InOutExpo);//.OnComplete(() => pausePanel.gameObject.SetActive(false));
 
@@ -247,7 +245,7 @@ public class GameManager : MonoBehaviour
         else
         {
             
-            //ÆÐ³ÎÀÌ ¿­¸®´Â ¾Ö´Ï¸ÞÀÌ¼Ç
+            //ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½
             tweenner.Kill();
             tweenner = pausePanel.transform.DOScale(new Vector3(1, 1, 1), 0.5f).SetEase(Ease.InExpo).SetEase(Ease.OutBounce).SetUpdate(true);
 
@@ -274,6 +272,20 @@ public class GameManager : MonoBehaviour
 
         timerTextOriginalPosition = timerText.rectTransform.anchoredPosition;
         scoreTextOriginalPosition = scoreText.rectTransform.anchoredPosition;
+
+        //var playerObject = Instantiate(GameData.PlayerModel.Value);
+        //playerObject.transform.parent = player.transform;
+
+        string characterName = "Luka";
+        if (!string.IsNullOrEmpty(GameData.CharacterName.Value)) characterName = GameData.CharacterName.Value;
+        else { Debug.LogError("Character Name Can not found in GameData class"); }
+
+        var characterPrefab = Resources.Load<GameObject>("PlayerModels/" + characterName);
+        var playerModel = Instantiate(characterPrefab);
+        playerModel.transform.parent = player.transform;
+
+        player.Init();
+
 
         StartOpening();
     }

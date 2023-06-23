@@ -32,7 +32,7 @@ public class CheckboxManager : MonoBehaviour
 
         GameObject playerModel = select.transform.parent.GetChild(0).GetChild(0).gameObject;
         print(playerModel.name);
-        GameData.playableModel.Value = playerModel;
+        GameData.CharacterName.Value = playerModel.name;
 
         selectedCheckbox = select;
     }
