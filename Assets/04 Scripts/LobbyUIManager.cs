@@ -8,6 +8,8 @@ public class LobbyUIManager : MonoBehaviour
     public GameObject characterUI;
     public GameObject opening;
 
+    public UIController characterUIController;
+
     public void LoadScene()
     {
         SceneManager.LoadScene("Main");
@@ -15,13 +17,15 @@ public class LobbyUIManager : MonoBehaviour
 
     public void ShowCharacterUI()
     {
-        characterUI.SetActive(true);
+        //characterUI.SetActive(true);
+        characterUIController.ShowCharacterUI();
         opening.SetActive(false);
     }
 
     public void HideCharacterUI()
     {
-        characterUI.SetActive(false);
+        //characterUI.SetActive(false);
+        characterUIController.HideCharacterUI();
         opening.SetActive(true);
     }
 }

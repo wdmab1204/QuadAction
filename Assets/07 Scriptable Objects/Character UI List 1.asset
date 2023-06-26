@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cc22b50db0ca154abca26c7dbc2ffa0, type: 3}
+  m_Name: Character UI List 1
+  m_EditorClassIdentifier: 
+  playerModels:
+  - {fileID: 3161218984676626423, guid: 8165e7126edb6604fb1f1ac4ca797f67, type: 3}
+  - {fileID: 3161218984676626423, guid: ed241cda97e7de0438c9da7c7c78aa9b, type: 3}
+  - {fileID: 3161218984676626423, guid: 51779d74b28643b4e8b571f2890bb629, type: 3}
+  - {fileID: 3161218984676626423, guid: 9afa256e91e29c044aa698e99697daa5, type: 3}
+  - {fileID: 3161218984676626423, guid: fb6553db92611074fb88fc1b679cad3f, type: 3}
+  selectedIndex: 2
+  boxPrefab: {fileID: 4112482713582075150, guid: ca2c083ed35ba4896af1c6dae665d68f, type: 3}

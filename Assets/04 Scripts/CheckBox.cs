@@ -6,8 +6,8 @@ using UnityEngine.Events;
 public class CheckBox : MonoBehaviour
 {
     GameObject checkImage;
-    public UnityEvent CheckboxOn;
-    public UnityEvent CheckboxOff;
+    public UnityEvent<CheckBox> CheckboxOn;
+    public UnityEvent<CheckBox> CheckboxOff;
 
     private void Awake()
     {
@@ -19,12 +19,12 @@ public class CheckBox : MonoBehaviour
         if (checkImage.activeSelf == true)
         {
             checkImage.SetActive(false);
-            CheckboxOff?.Invoke();
+            CheckboxOff?.Invoke(this);
         }
         else
         {
             checkImage.SetActive(true);
-            CheckboxOn?.Invoke();
+            CheckboxOn?.Invoke(this);
         }
     }
 

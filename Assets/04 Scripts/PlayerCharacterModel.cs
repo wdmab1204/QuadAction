@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 public class Data<T>
@@ -16,6 +17,10 @@ public class Data<T>
             this.onChange?.Invoke(value);
         }
     }
+
+    public Data(T t) => v = t;
+    public Data() { }
+
     public Action<T> onChange;
 
     public override string ToString()
@@ -38,18 +43,22 @@ public static class GameData
 [CreateAssetMenu(fileName = "Character UI List", menuName = "Data/Character UI List")]
 public class PlayerCharacterModel : ScriptableObject
 {
-    [SerializeField] private GameObject[] playerModels;
+    public static readonly int UNDEFINEDID = int.MinValue;
 
-    public Data<GameObject>[] MakeDataFromPlayerModels()
-    {
-        Data<GameObject>[] dataList = new Data<GameObject>[playerModels.Length];
+    public GameObject[] playerModels;
+    public Data<int> selectID = new Data<int>(UNDEFINEDID);
+    public GameObject boxPrefab;
 
-        for(int i=0; i<dataList.Length; i++)
-        {
-            dataList[i] = new Data<GameObject>();
-            dataList[i].Value = playerModels[i];
-        }
+    //public Data<GameObject[]> MakeDataFromPlayerModels()
+    //{
+    //    Data<GameObject[]> dataList = new Data<GameObject[]>();
+    //    dataList.Value = new GameObject[playerModels.Length];
 
-        return dataList;
-    }
+    //    for(int i=0; i<dataList.Value.Length; i++)
+    //    {
+    //        dataList.Value[i] = playerModels[i];
+    //    }
+
+    //    return dataList;
+    //}
 }

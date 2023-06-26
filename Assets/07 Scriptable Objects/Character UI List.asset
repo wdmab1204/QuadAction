@@ -18,3 +18,5 @@ MonoBehaviour:
   - {fileID: 3161218984676626423, guid: 9afa256e91e29c044aa698e99697daa5, type: 3}
   - {fileID: 3161218984676626423, guid: ed241cda97e7de0438c9da7c7c78aa9b, type: 3}
   - {fileID: 3161218984676626423, guid: 8165e7126edb6604fb1f1ac4ca797f67, type: 3}
+  selectedIndex: 0
+  boxPrefab: {fileID: 4112482713582075150, guid: ca2c083ed35ba4896af1c6dae665d68f, type: 3}
