@@ -40,24 +40,22 @@ public class Monster : Character
 
     private int score = 5;
     private int percent = 15;
+    System.Action<Monster> destroyEvent;
     public override void Die()
     {
-        GameManager.Instance.SetScore(score); //ui¿¡ score ¹Ý¿µ
-        anim.SetTrigger("Die"); //Die ¾Ö´Ï¸ÞÀÌ¼Ç ½ÇÇà
+        GameManager.Instance.SetScore(score); //uiï¿½ï¿½ score ï¿½Ý¿ï¿½
+        anim.SetTrigger("Die"); //Die ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         //base.Die();
-        if (monsterPool != null)
-            monsterPool.Release(this);
-        else
-            base.Die();
+        destroyEvent?.Invoke(this);
 
 
-        //Particle »ý¼º
+        //Particle ï¿½ï¿½ï¿½ï¿½
         ParticleSystem particle = Instantiate<GameObject>(dieParticle).GetComponent<ParticleSystem>();
         particle.transform.position = this.transform.position;
         particle.Play();
 
         
-        //º¸¹°»óÀÚ È®·ü»ý¼º
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         bool[] arr = new bool[100];
         for (int i = 0; i < percent; i++) arr[i] = true;
         int randI = Random.Range(0, 100);
@@ -86,18 +84,6 @@ public class Monster : Character
             rb.AddForce(transform.position - target.transform.position.normalized);
             yield return new WaitForFixedUpdate();
         }
-    }
-
-
-    private IObjectPool<Monster> monsterPool;
-    public void SetPool(IObjectPool<Monster> pool)
-    {
-        monsterPool = pool;
-    }
-
-    private void OnBecameInvisible()
-    {
-        monsterPool.Release(this);
     }
 
     protected override void Awake()
