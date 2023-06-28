@@ -5,10 +5,8 @@ using UnityEngine.UI;
 
 public class LobbyUIManager : MonoBehaviour
 {
-    public GameObject characterUI;
+    public UIController characterUI;
     public GameObject opening;
-
-    public UIController characterUIController;
 
     public void LoadScene()
     {
@@ -17,15 +15,13 @@ public class LobbyUIManager : MonoBehaviour
 
     public void ShowCharacterUI()
     {
-        //characterUI.SetActive(true);
-        characterUIController.ShowCharacterUI();
+        characterUI.ShowCharacterUI();
         opening.SetActive(false);
     }
 
     public void HideCharacterUI()
     {
-        //characterUI.SetActive(false);
-        characterUIController.HideCharacterUI();
+        characterUI.HideCharacterUI();
         opening.SetActive(true);
     }
 }
