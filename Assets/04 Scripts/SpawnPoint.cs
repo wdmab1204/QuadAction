@@ -4,77 +4,95 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    class ObjectPool<T>where T : UnityEngine.Component
+    [System.Serializable]
+    class Pool
     {
-        private T prefab;
+        public string tag;
+        public GameObject prefab;
+        public int size;
+    }
+
+    class ObjectPool
+    {
+        private Pool[] pools;
         private Transform parentTransform;
         private int initialPoolSize;
-        private Queue<T> objectPool = new Queue<T>();
+        private Dictionary<string, Queue<GameObject>> tagToQueuedictionary = new Dictionary<string, Queue<GameObject>>();
+        private Dictionary<string, Pool> tagToPoolDictionary = new Dictionary<string, Pool>();
 
-        public ObjectPool(T prefab, Transform parentTransform, int initialPoolSize)
+        public ObjectPool(Pool[] pools, Transform parentTransform)
         {
-            this.prefab = prefab;
+            this.pools = pools;
             this.parentTransform = parentTransform;
-            this.initialPoolSize = initialPoolSize;
+
+            for (int i = 0; i < pools.Length; i++)
+            {
+                tagToPoolDictionary[pools[i].tag] = pools[i];
+            }
 
             // 초기 풀 크기만큼 객체를 생성하여 풀에 추가합니다.
-            for (int i = 0; i < initialPoolSize; i++)
+            for (int i = 0; i < pools.Length; i++)
             {
-                T obj = InstantiateObject();
-                AddToPool(obj);
+                tagToQueuedictionary[pools[i].tag] = new Queue<GameObject>();
+                for(int j=0; j < pools[i].size; j++)
+                {
+                    var obj = InstantiateObject(pools[i].prefab);
+                    AddToPool(pools[i].tag, obj);
+                }
             }
         }
 
-        public T GetObject()
+        public T GetObject<T>(string tag, Vector3 position = default, Quaternion rotation = default) => GetObject(tag, position, rotation).GetComponent<T>();
+
+        public GameObject GetObject(string tag, Vector3 position = default, Quaternion rotation = default)
         {
-            if (objectPool.Count == 0)
+            Queue<GameObject> queue = tagToQueuedictionary[tag];
+            GameObject obj = null;
+            if (queue.Count == 0) obj = InstantiateObject(tagToPoolDictionary[tag].prefab);
+            else obj = queue.Dequeue(); obj.gameObject.SetActive(true);
+
+            obj.transform.position = position == default ? Vector3.zero : position;
+            obj.transform.rotation = rotation == default ? Quaternion.identity : rotation;
+            return obj;
+        }
+
+        public void ReturnObject(string tag, GameObject obj)
+        {
+            if (tagToQueuedictionary.ContainsKey(tag))
             {
-                // 풀이 비어있는 경우 새로운 객체를 생성하여 반환합니다.
-                T obj = InstantiateObject();
-                return obj;
+                obj.gameObject.SetActive(false);
+                AddToPool(tag, obj);
             }
-
-            // 풀에서 재사용 가능한 객체를 가져와 반환합니다.
-            T pooledObject = objectPool.Dequeue();
-            pooledObject.gameObject.SetActive(true);
-            return pooledObject;
         }
 
-        public void ReturnObject(T obj)
+        private GameObject InstantiateObject(GameObject prefab)
         {
-            obj.gameObject.SetActive(false);
-            AddToPool(obj);
-        }
-
-        private T InstantiateObject()
-        {
-            T obj = Object.Instantiate(prefab, parentTransform);
+            GameObject obj = Object.Instantiate(prefab, parentTransform);
             obj.gameObject.SetActive(false);
             return obj;
         }
 
-        private void AddToPool(T obj)
+        private void AddToPool(string tag,GameObject obj)
         {
-            objectPool.Enqueue(obj);
+            tagToQueuedictionary[tag].Enqueue(obj);
         }
     }
 
     public class SpawnPoint : MonoBehaviour
     {
-        [SerializeField] private Monster monsterPrefab;
-        private ObjectPool<Monster> monsterPool;
+        [SerializeField] private Pool[] pools;
+        private ObjectPool monsterPool;
 
         private void Awake()
         {
-            monsterPool = new ObjectPool<Monster>(monsterPrefab, this.transform, 50);
+            monsterPool = new ObjectPool(pools, this.transform);
         }
 
         private void Update()
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                var monster = monsterPool.GetObject();
-                monster.transform.position = this.transform.position;
+                monsterPool.GetObject("EnemyA").transform.position = transform.position;
             }
                 
         }
