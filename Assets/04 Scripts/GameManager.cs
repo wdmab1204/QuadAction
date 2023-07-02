@@ -194,7 +194,7 @@ public class GameManager : MonoBehaviour
         int target_hp = target.GetHp();
         target_hp -= damage;
         target.SetHp(target_hp);
-        target.beDamaged();
+        target.Hit();
         playerHpSlider.UpdateValue();
 
         if (target.GetHp() <= 0) target.Die();

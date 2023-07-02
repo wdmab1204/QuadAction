@@ -68,7 +68,7 @@ public class Monster : Character
     }
     #endregion
 
-    public override void beDamaged()
+    public override void Hit()
     {
         //var v = transform.position - target.transform.position.normalized;
         //rb.AddForce(v ,ForceMode.Impulse);

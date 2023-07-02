@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public enum StateType { none, idle, move, attack };
 
-public delegate void PlayerSkill();
-
 public class Player : Character
 {
 
@@ -68,6 +66,11 @@ public class Player : Character
             OnDamaged(collision.transform.position);
             GameManager.Instance.AttackToTarget(enemy.GetATK(), this);
         }
+    }
+
+    public override void Hit(int damageAmount)
+    {
+        Hp.Value -= damageAmount;
     }
 
     void OnDamaged(Vector3 targetPos)
