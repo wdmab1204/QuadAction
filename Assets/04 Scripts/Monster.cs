@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Pool;
 
 enum MonsterBehaviourType { FollowTarget, Attack };
 
@@ -13,15 +12,18 @@ public class Monster : Character
 
 
     #region Follow Player
-    [Header("Following variable")]
+    [Header("Following variable")] 
     private Rigidbody rb;
     private Character target;
 
     void FollowTarget()
     {
         //transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
-        rb.velocity = (target.transform.position-transform.position).normalized * speed;
-        transform.LookAt(target.transform);
+        if (target != null)
+        {
+            rb.velocity = (target.transform.position - transform.position).normalized * speed;
+            transform.LookAt(target.transform);
+        }
     }
 
     #endregion
@@ -32,11 +34,6 @@ public class Monster : Character
     public float dyingTime;
     public GameObject dieParticle;
     public GameObject treasureBoxPrefab;
-
-    public override void SetHp(int hp)
-    {
-        base.SetHp(hp);
-    }
 
     private int score = 5;
     private int percent = 15;
@@ -68,32 +65,37 @@ public class Monster : Character
     }
     #endregion
 
-    public override void Hit()
+    public override void Hit(int damage, Vector3 force)
     {
         //var v = transform.position - target.transform.position.normalized;
         //rb.AddForce(v ,ForceMode.Impulse);
-        StartCoroutine(force());
+        Hp.Value -= damage;
+        StartCoroutine(ForceCoroutine(force : transform.position - target.transform.position.normalized));
     }
 
-    IEnumerator force()
+    IEnumerator ForceCoroutine(Vector3 force)
     {
         float time = 0;
         while (time <= 0.5f)
         {
             time += Time.fixedDeltaTime;
-            rb.AddForce(transform.position - target.transform.position.normalized);
+            rb.AddForce(force);
             yield return new WaitForFixedUpdate();
         }
     }
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
         rb = GetComponent<Rigidbody>();
+        Initialize();
     }
     private void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
+        var playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
+            target = playerObject.GetComponent<Character>();
+        else
+            Debug.LogWarning("Can not found Player Object : " + name);
     }
 
     private void Update()

@@ -15,7 +15,7 @@ namespace ItemNameSpace
 
         public override void Start()
         {
-            user.SetSpeed(user.GetSpeed() + 5.0f);
+            user.Speed.Value = user.Speed.Value + 5.0f;
         }
 
         public override void Update()
@@ -24,8 +24,8 @@ namespace ItemNameSpace
         }
 
         public override void Upgrade()
-        {
-            user.SetSpeed(user.GetSpeed() + 5.0f);
+        { 
+            user.Speed.Value = user.Speed.Value + 2.5f;
         }
     }
 }

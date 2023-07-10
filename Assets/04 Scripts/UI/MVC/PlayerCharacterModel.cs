@@ -14,14 +14,14 @@ public class Data<T>
         set
         {
             this.v = value;
-            this.onChange?.Invoke(value);
+            this.OnChange?.Invoke(value);
         }
     }
 
     public Data(T t) => v = t;
     public Data() { }
 
-    public Action<T> onChange;
+    public Action<T> OnChange;
 
     public override string ToString()
     {

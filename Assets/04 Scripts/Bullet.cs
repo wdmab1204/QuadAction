@@ -11,6 +11,6 @@ public class Bullet : MonoBehaviour
         var enemy = other.GetComponent<Monster>();
 
         if (enemy != null)
-            GameManager.Instance.AttackToTarget(damage, enemy);
+            GameManager.Instance.AttackToTarget(damage, enemy, Vector3.zero);
     }
 }

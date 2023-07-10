@@ -114,7 +114,6 @@ public class GameManager : MonoBehaviour
         //scoreText, timerText, hpsliderbar �ִϸ��̼� ����
         timerText.rectTransform.DOAnchorPosX(-250.0f, 1.0f).From(true);
         scoreText.rectTransform.DOAnchorPosX(250.0f, 1.0f).From(true);
-        playerHpSlider.UpdateValue();
         
     }
     #endregion
@@ -189,27 +188,17 @@ public class GameManager : MonoBehaviour
     public PlayerCharacterModel model;
     #endregion
 
-    public int AttackToTarget(int damage, Character target)
+    public void AttackToTarget(int damage, Character target, Vector3 force)
     {
-        int target_hp = target.GetHp();
-        target_hp -= damage;
-        target.SetHp(target_hp);
-        target.Hit();
-        playerHpSlider.UpdateValue();
+        target.Hit(damage, force);
 
-        if (target.GetHp() <= 0) target.Die();
-
-        return target_hp;
+        if (target.Hp.Value <= 0) target.Die();
     }
 
-    public int HealToTarget(int heal, Character target)
+    public void HealToTarget(int heal, Character target)
     {
-        int target_hp = target.GetHp();
-        target_hp += heal;
-        target.SetHp(target_hp);
-        playerHpSlider.UpdateValue();
-
-        return target_hp;
+        if (target.Hp.Value + heal <= target.MaxHp.Value)
+            target.Hp.Value += heal;
     }
 
     Sequence s;
@@ -284,7 +273,8 @@ public class GameManager : MonoBehaviour
         var playerModel = Instantiate(characterPrefab);
         playerModel.transform.parent = player.transform;
 
-        player.Init();
+        player.Initialize();
+        playerHpSlider.Initialize();
 
 
         StartOpening();

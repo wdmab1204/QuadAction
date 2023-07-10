@@ -7,9 +7,9 @@ public class HpSlider : MonoBehaviour
     public Character character;
     private Slider slider;
 
-    public void UpdateValue()
+    public void UpdateValue(int value)
     {
-        int currentHp = character.GetHp();
+        int currentHp = value;
         slider.DOValue(currentHp, 3.0f);
     }
 
@@ -17,10 +17,12 @@ public class HpSlider : MonoBehaviour
     {
         slider = GetComponent<Slider>();
     }
-    // Start is called before the first frame update
-    void Start()
+
+    public void Initialize()
     {
-        slider.maxValue = character.GetHp();
-        //UpdateValue();
+        slider.maxValue = character.MaxHp.Value;
+        character.Hp.OnChange += hp => UpdateValue(hp);
+        print(character.MaxHp.Value);
+        UpdateValue(character.MaxHp.Value);
     }
 }

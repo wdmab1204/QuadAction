@@ -36,7 +36,6 @@ public class Player : Character
         else
         {
             stateType = StateType.idle;
-
             Idle();
         }
 
@@ -64,11 +63,12 @@ public class Player : Character
         if (enemy != null)
         {
             OnDamaged(collision.transform.position);
-            GameManager.Instance.AttackToTarget(enemy.GetATK(), this);
+            Hit(1, Vector3.zero);
+            //GameManager.Instance.AttackToTarget(enemy.Atk.Value, this);
         }
     }
 
-    public override void Hit(int damageAmount)
+    public override void Hit(int damageAmount, Vector3 force)
     {
         Hp.Value -= damageAmount;
     }
@@ -111,14 +111,11 @@ public class Player : Character
     private BuffManager buffManager;
     public BuffManager BuffManager { get { return buffManager; } }
 
-
-    protected override void Awake()
+    public override void Initialize()
     {
-        base.Awake();
-    }
+        base.Initialize();
+        Hp.OnChange = hp => { if (hp <= 0) Die(); };
 
-    public void Init()
-    {
         col = GetComponent<Collider>();
         rig = GetComponent<Rigidbody>();
         anim = transform.GetChild(0).GetComponent<Animator>();
@@ -130,11 +127,5 @@ public class Player : Character
     {
         Move();
         buffManager.Update();
-    }
-
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
     }
 }

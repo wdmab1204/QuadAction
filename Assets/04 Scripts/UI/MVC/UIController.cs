@@ -44,7 +44,7 @@ public class UIController : MonoBehaviour
         viewData = characterUIView.CreateView(playerCharacterModel);
 
         //Initialize Delegate Function
-        playerCharacterModel.selectID.onChange += id => CheckboxUpdate(id);
+        playerCharacterModel.selectID.OnChange += id => CheckboxUpdate(id);
         for (int i = 0; i < viewData.checkboxArray.Length; i++)
         {
             viewData.checkboxArray[i].CheckboxOn.AddListener(self => SetSelectInstanceID(self));

@@ -7,7 +7,6 @@ namespace ItemNameSpace
 {
     public class BuffManager
     {
-
         Dictionary<string, Item> itemDic;
 
         public BuffManager()

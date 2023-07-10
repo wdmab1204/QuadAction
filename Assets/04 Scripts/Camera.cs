@@ -21,7 +21,8 @@ public class Camera : MonoBehaviour
 
     private void LateUpdate()
     {
-        SmoothFollow();
+        if (target != null)
+            SmoothFollow();
     }
 
     public void SmoothFollow()

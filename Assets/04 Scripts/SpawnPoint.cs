@@ -14,7 +14,6 @@ namespace Assets.Scripts
 
     class ObjectPool
     {
-        private Pool[] pools;
         private Transform parentTransform;
         private int initialPoolSize;
         private Dictionary<string, Queue<GameObject>> tagToQueuedictionary = new Dictionary<string, Queue<GameObject>>();
@@ -22,7 +21,6 @@ namespace Assets.Scripts
 
         public ObjectPool(Pool[] pools, Transform parentTransform)
         {
-            this.pools = pools;
             this.parentTransform = parentTransform;
 
             for (int i = 0; i < pools.Length; i++)
@@ -83,6 +81,8 @@ namespace Assets.Scripts
         [SerializeField] private Pool[] pools;
         private ObjectPool monsterPool;
 
+        readonly string[] strs = { "BlueMob", "PuppleMob" };
+
         private void Awake()
         {
             monsterPool = new ObjectPool(pools, this.transform);
@@ -92,7 +92,7 @@ namespace Assets.Scripts
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                monsterPool.GetObject("EnemyA").transform.position = transform.position;
+                monsterPool.GetObject(strs[Random.Range(0,strs.Length)]).transform.position = transform.position;
             }
                 
         }
