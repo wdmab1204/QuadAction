@@ -141,7 +141,6 @@ public class GameManager : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject produceCamera;
-    [SerializeField] private GameObject openingCamera;
     private enum CameraType { None, Main_Camera, Produce_Camera };
     [SerializeField] private CameraType cameraType;
     private void SwitchingCamera(CameraType cameraType)
@@ -150,7 +149,6 @@ public class GameManager : MonoBehaviour
         {
             mainCamera.SetActive(true);
             produceCamera.SetActive(false);
-            openingCamera.SetActive(false);
 
             playerHpSlider.gameObject.SetActive(true);
             timerText.gameObject.SetActive(true);
@@ -166,7 +164,6 @@ public class GameManager : MonoBehaviour
         {
             mainCamera.SetActive(false);
             produceCamera.SetActive(true);
-            openingCamera.SetActive(false);
 
             playerHpSlider.gameObject.SetActive(false);
             timerText.gameObject.SetActive(false);
