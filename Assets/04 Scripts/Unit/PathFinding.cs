@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class PathFinding : MonoBehaviour
 {
-
     public Transform seeker, target;
     GameGrid grid;
 
@@ -15,16 +15,23 @@ public class PathFinding : MonoBehaviour
 
     void Update()
     {
-        FindPath(seeker.position, target.position);
+        //PathRequestManager.RequestPathFind(seeker.position, target.position, OnPathFind);
+        //FindPath(seeker.position, target.position);
     }
 
-    void FindPath(Vector3 startPos, Vector3 targetPos)
+    void OnPathFind()
+    {
+        //follow target
+    }
+
+    public void FindPath(Vector3 startPos, Vector3 targetPos, Action<bool, Vector3[]> callback)
     {
         Node startNode = grid.GetNodeFromWorldPoint(startPos);
         Node targetNode = grid.GetNodeFromWorldPoint(targetPos);
 
         List<Node> openSet = new List<Node>();
         HashSet<Node> closedSet = new HashSet<Node>();
+        bool success = false;
         openSet.Add(startNode);
 
         while (openSet.Count > 0)
@@ -44,8 +51,8 @@ public class PathFinding : MonoBehaviour
 
             if (node == targetNode)
             {
-                RetracePath(startNode, targetNode);
-                return;
+                success = true;
+                break;
             }
 
             foreach (Node neighbour in grid.GetNeighbours(node))
@@ -67,21 +74,28 @@ public class PathFinding : MonoBehaviour
                 }
             }
         }
+
+        callback(success, RetracePath(startNode, targetNode));
     }
 
-    void RetracePath(Node startNode, Node endNode)
+    Vector3[] RetracePath(Node startNode, Node endNode)
     {
         List<Node> path = new List<Node>();
+        List<Vector3> wayPoints = new List<Vector3>();
         Node currentNode = endNode;
 
         while (currentNode != startNode)
         {
+            wayPoints.Add(currentNode.worldPos);
             path.Add(currentNode);
             currentNode = currentNode.parentNode;
         }
+        wayPoints.Reverse();
         path.Reverse();
 
         grid.path = path;
+
+        return wayPoints.ToArray();
 
     }
 
