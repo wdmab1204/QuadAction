@@ -1,6 +1,5 @@
 using UnityEngine;
 using ItemNameSpace;
-using UnityEngine.UI;
 
 public enum StateType { none, idle, move, attack };
 
@@ -38,25 +37,12 @@ public class Player : Character
             stateType = StateType.idle;
             Idle();
         }
-
-
-
-       
     }
     #endregion
 
     #region damaged
 
     [SerializeField] private Collider col;
-    //private void OnTriggerEnter(Collider collision)
-    //{
-    //    var enemy = collision.GetComponent<Monster>();
-    //    if (enemy != null)
-    //    {
-    //        OnDamaged(collision.transform.position);
-    //        GameManager.Instance.AttackToTarget(enemy.GetATK(), this);
-    //    }
-    //}
     private void OnCollisionEnter(Collision collision)
     {
         var enemy = collision.gameObject.GetComponent<Monster>();
@@ -64,7 +50,6 @@ public class Player : Character
         {
             OnDamaged(collision.transform.position);
             Hit(1, Vector3.zero);
-            //GameManager.Instance.AttackToTarget(enemy.Atk.Value, this);
         }
     }
 
@@ -75,8 +60,6 @@ public class Player : Character
 
     void OnDamaged(Vector3 targetPos)
     {
-        //col.enabled = false; // ����
-
         int dirc_x = transform.position.x - targetPos.x > 0 ? 1 : -1;
         int dirc_z = transform.position.z - targetPos.z > 0 ? 1 : -1;
         rig.AddForce(new Vector3(dirc_x, 2, dirc_z) * 10.0f, ForceMode.Impulse);
@@ -122,7 +105,6 @@ public class Player : Character
         buffManager = new BuffManager();
     }
 
-    // Update is called once per frame
     void Update()
     {
         Move();

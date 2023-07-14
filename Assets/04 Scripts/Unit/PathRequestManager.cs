@@ -6,9 +6,9 @@ struct PathRequest
 {
     public Vector3 startPos;
     public Vector3 targetPos;
-    public Action callback;
+    public Action<bool, Vector3[]> callback;
 
-    public PathRequest(Vector3 startPos, Vector3 targetPos, Action callback)
+    public PathRequest(Vector3 startPos, Vector3 targetPos, Action<bool, Vector3[]> callback)
     {
         this.startPos = startPos;
         this.targetPos = targetPos;
@@ -23,6 +23,7 @@ public class PathRequestManager : MonoBehaviour
     PathFinding pathFinding;
     Queue<PathRequest> pathRequestQueue = new Queue<PathRequest>();
     bool isProcessing = false;
+    PathRequest currentRequest;
 
     private void Awake()
     {
@@ -30,7 +31,7 @@ public class PathRequestManager : MonoBehaviour
         pathFinding = GetComponent<PathFinding>();
     }
 
-    public static void RequestPathFind(Vector3 startPos, Vector3 targetPos, Action callback)
+    public static void RequestPathFind(Vector3 startPos, Vector3 targetPos, Action<bool, Vector3[]> callback)
     {
         PathRequest pathRequest = new PathRequest(startPos, targetPos, callback);
         instance.pathRequestQueue.Enqueue(pathRequest);
@@ -41,15 +42,16 @@ public class PathRequestManager : MonoBehaviour
     {
         if (!isProcessing &&instance.pathRequestQueue.Count > 0)
         {
-            var request = pathRequestQueue.Dequeue();
+            currentRequest = pathRequestQueue.Dequeue();
             isProcessing = true;
-            instance.pathFinding.FindPath(request.startPos, request.targetPos, FinishProcessingFindPath);
+            instance.pathFinding.FindPath(currentRequest.startPos, currentRequest.targetPos, FinishProcessingFindPath);
         }
     }
 
     void FinishProcessingFindPath(bool success, Vector3[] waypoints)
     {
         isProcessing = false;
+        currentRequest.callback(success, waypoints);
         TryProcessNext();
     }
 }

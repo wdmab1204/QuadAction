@@ -37,29 +37,23 @@ public class Monster : Character
 
     private int score = 5;
     private int percent = 15;
-    System.Action<Monster> destroyEvent;
     public override void Die()
     {
-        GameManager.Instance.SetScore(score); //ui�� score �ݿ�
-        anim.SetTrigger("Die"); //Die �ִϸ��̼� ����
-        //base.Die();
-        destroyEvent?.Invoke(this);
+        GameManager.Instance.SetScore(score);
+        anim.SetTrigger("Die");
 
-
-        //Particle ����
-        ParticleSystem particle = Instantiate<GameObject>(dieParticle).GetComponent<ParticleSystem>();
+        ParticleSystem particle = Instantiate(dieParticle).GetComponent<ParticleSystem>();
         particle.transform.position = this.transform.position;
         particle.Play();
 
         
-        //�������� Ȯ������
         bool[] arr = new bool[100];
         for (int i = 0; i < percent; i++) arr[i] = true;
         int randI = Random.Range(0, 100);
 
         if (arr[randI] == true)
         {
-            GameObject obj = Instantiate<GameObject>(treasureBoxPrefab);
+            GameObject obj = Instantiate(treasureBoxPrefab);
             obj.transform.position = this.transform.position;
         }
     }
@@ -67,8 +61,6 @@ public class Monster : Character
 
     public override void Hit(int damage, Vector3 force)
     {
-        //var v = transform.position - target.transform.position.normalized;
-        //rb.AddForce(v ,ForceMode.Impulse);
         Hp.Value -= damage;
         StartCoroutine(ForceCoroutine(force : transform.position - target.transform.position.normalized));
     }

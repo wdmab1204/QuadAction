@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node
+public class Node : IComparable<Node>
 {
     /// <summary>
     /// Distance from starting node
@@ -34,6 +35,15 @@ public class Node
         this.gridX = gridX;
         this.gridY = gridY;
     }
+
+    int IComparable<Node>.CompareTo(Node other)
+    {
+        int compare = fCost.CompareTo(other.fCost);
+        if (compare == 0)
+            compare = hCost.CompareTo(other.hCost);
+
+        return compare;
+    }
 }
 
 public class GameGrid : MonoBehaviour
@@ -41,6 +51,9 @@ public class GameGrid : MonoBehaviour
     public float nodeRadius = 1;
     public Vector2 gridWorldSize;
     public LayerMask unwalkableMask;
+    public bool showGridGizmos;
+
+    public int MaxSize { get => gridSizeX * gridSizeY; }
 
     int gridSizeX, gridSizeY;
     float nodeDiameter;
@@ -111,7 +124,7 @@ public class GameGrid : MonoBehaviour
     {
         Gizmos.color = Color.black;
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-        if (grid != null)
+        if (grid != null && showGridGizmos)
         {
             foreach(var node in grid)
             {

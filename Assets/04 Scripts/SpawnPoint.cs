@@ -15,7 +15,6 @@ namespace Assets.Scripts
     class ObjectPool
     {
         private Transform parentTransform;
-        private int initialPoolSize;
         private Dictionary<string, Queue<GameObject>> tagToQueuedictionary = new Dictionary<string, Queue<GameObject>>();
         private Dictionary<string, Pool> tagToPoolDictionary = new Dictionary<string, Pool>();
 
@@ -92,7 +91,9 @@ namespace Assets.Scripts
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                monsterPool.GetObject(strs[Random.Range(0,strs.Length)]).transform.position = transform.position;
+                Monster monster = monsterPool.GetObject<Monster>(strs[Random.Range(0, strs.Length)]);
+                monster.transform.position = transform.position;
+                monster.OnDie += monsterPool.ReturnObject;
             }
                 
         }
