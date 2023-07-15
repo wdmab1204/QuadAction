@@ -22,7 +22,6 @@ public class HpSlider : MonoBehaviour
     {
         slider.maxValue = character.MaxHp.Value;
         character.Hp.OnChange += hp => UpdateValue(hp);
-        print(character.MaxHp.Value);
         UpdateValue(character.MaxHp.Value);
     }
 }
