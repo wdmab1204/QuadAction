@@ -60,6 +60,7 @@ public class GameGrid : MonoBehaviour
     public float nodeRadius = 1;
     public Vector2 gridWorldSize;
     public LayerMask unwalkableMask;
+    public int blurSize = 3;
     public bool showGridGizmos;
     public TerrainInfo[] terrainRegions;
 
@@ -88,7 +89,7 @@ public class GameGrid : MonoBehaviour
         }
 
         CreateGrid();
-        BlurWeightMap(5);
+        BlurWeightMap(blurSize);
     }
 
     void CreateGrid()
@@ -120,6 +121,8 @@ public class GameGrid : MonoBehaviour
                 }
 
                 grid[x, y] = new Node(walkable, worldPoint, x, y, weight);
+                if (weight < weightMin) weightMin = weight;
+                if (weight > weightMax) weightMax = weight;
             }
         }
     }
@@ -195,7 +198,7 @@ public class GameGrid : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.black;
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, .5f, gridWorldSize.y));
         if (grid != null && showGridGizmos)
         {
             foreach(var node in grid)

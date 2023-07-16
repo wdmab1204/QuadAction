@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9192026165752543362}
   - component: {fileID: 5489990602876143683}
   - component: {fileID: 2708403210885733536}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: road6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ MeshCollider:
   m_GameObject: {fileID: 6158877941029370797}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4812896578459389604}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: road6
   m_TagString: Untagged
   m_Icon: {fileID: 0}

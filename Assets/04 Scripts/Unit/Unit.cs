@@ -8,10 +8,11 @@ public class Unit : MonoBehaviour
     public float speed = 1f;
     Vector3[] path;
     bool success = false;
+    Rigidbody rigidbody;
     // Start is called before the first frame update
     void Start()
     {
-        
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -39,7 +40,9 @@ public class Unit : MonoBehaviour
             var waypoint = path[i];
             while(transform.position != waypoint)
             {
-                transform.position = Vector3.MoveTowards(transform.position, waypoint, speed * Time.deltaTime);
+                //transform.position = Vector3.MoveTowards(transform.position, waypoint, speed * Time.deltaTime);
+                waypoint.y = transform.position.y;
+                rigidbody.velocity = (waypoint - transform.position).normalized * speed;
                 yield return null;
             }
         }

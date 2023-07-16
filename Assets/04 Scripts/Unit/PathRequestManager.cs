@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 struct PathRequest
@@ -36,6 +37,11 @@ public class PathRequestManager : MonoBehaviour
         PathRequest pathRequest = new PathRequest(startPos, targetPos, callback);
         instance.pathRequestQueue.Enqueue(pathRequest);
         instance.TryProcessNext();
+
+        ThreadStart threadStart = delegate
+        {
+            instance.pathFinding.FindPath(startPos, targetPos, callback);
+        };
     }
 
     void TryProcessNext()
