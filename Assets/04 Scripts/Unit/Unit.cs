@@ -8,17 +8,13 @@ public class Unit : MonoBehaviour
     public float speed = 1f;
     Vector3[] path;
     bool success = false;
-    Rigidbody rigidbody;
+    new Rigidbody rigidbody;
+    float updateInterval = .3f;
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        PathRequestManager.RequestPathFind(transform.position, target.position, OnCompltePastFind);
+        StartCoroutine("UpdatePath");
     }
 
     void OnCompltePastFind(bool success, Vector3[] waypoints)
@@ -33,6 +29,25 @@ public class Unit : MonoBehaviour
         }
     }
 
+    IEnumerator UpdatePath()
+    {
+        if (Time.timeSinceLevelLoad < .3f)
+        {
+            yield return new WaitForSeconds(.3f);
+        }
+        PathRequestManager.RequestPathFind(new PathRequest(transform.position, target.position, OnCompltePastFind));
+
+        while (true)
+        {
+            yield return new WaitForSeconds(updateInterval);
+
+            if (Vector3.Distance(transform.position, target.position) > .25f)
+            {
+                PathRequestManager.RequestPathFind(new PathRequest(transform.position, target.position, OnCompltePastFind));
+            }
+        }
+    }
+
     IEnumerator FollowTarget()
     {
         for(int i=0; i<path.Length; i++)
@@ -40,7 +55,6 @@ public class Unit : MonoBehaviour
             var waypoint = path[i];
             while(transform.position != waypoint)
             {
-                //transform.position = Vector3.MoveTowards(transform.position, waypoint, speed * Time.deltaTime);
                 waypoint.y = transform.position.y;
                 rigidbody.velocity = (waypoint - transform.position).normalized * speed;
                 yield return null;

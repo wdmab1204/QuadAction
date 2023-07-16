@@ -14,21 +14,10 @@ public class PathFinding : MonoBehaviour
         grid = GetComponent<GameGrid>();
     }
 
-    void Update()
+    public void FindPath(PathRequest request, Action<PathResult> callback)
     {
-        //PathRequestManager.RequestPathFind(seeker.position, target.position, OnPathFind);
-        //FindPath(seeker.position, target.position);
-    }
-
-    void OnPathFind()
-    {
-        //follow target
-    }
-
-    public void FindPath(Vector3 startPos, Vector3 targetPos, Action<bool, Vector3[]> callback)
-    {
-        Node startNode = grid.GetNodeFromWorldPoint(startPos);
-        Node targetNode = grid.GetNodeFromWorldPoint(targetPos);
+        Node startNode = grid.GetNodeFromWorldPoint(request.startPos);
+        Node targetNode = grid.GetNodeFromWorldPoint(request.targetPos);
 
         if (priorityQueue == null)
             priorityQueue = new PriorityQueue<Node>(grid.MaxSize);
@@ -79,7 +68,7 @@ public class PathFinding : MonoBehaviour
         if (success)
             path = RetracePath(startNode, targetNode);
 
-        callback(success, path);
+        callback(new PathResult(success, path, request.callback));
     }
 
     Vector3[] RetracePath(Node startNode, Node endNode)

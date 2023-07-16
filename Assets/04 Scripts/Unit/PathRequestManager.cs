@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-struct PathRequest
+public struct PathRequest
 {
     public Vector3 startPos;
     public Vector3 targetPos;
@@ -17,12 +17,26 @@ struct PathRequest
     }
 }
 
+public struct PathResult
+{
+    public bool success;
+    public Vector3[] path;
+    public Action<bool, Vector3[]> callback;
+
+    public PathResult(bool success, Vector3[] path, Action<bool, Vector3[]> callback)
+    {
+        this.success = success;
+        this.path = path;
+        this.callback = callback;
+    }
+}
+
 
 public class PathRequestManager : MonoBehaviour
 {
     static PathRequestManager instance;
     PathFinding pathFinding;
-    Queue<PathRequest> pathRequestQueue = new Queue<PathRequest>();
+    Queue<PathResult> resultQueue = new Queue<PathResult>();
     bool isProcessing = false;
     PathRequest currentRequest;
 
@@ -32,32 +46,37 @@ public class PathRequestManager : MonoBehaviour
         pathFinding = GetComponent<PathFinding>();
     }
 
-    public static void RequestPathFind(Vector3 startPos, Vector3 targetPos, Action<bool, Vector3[]> callback)
+    private void Update()
     {
-        PathRequest pathRequest = new PathRequest(startPos, targetPos, callback);
-        instance.pathRequestQueue.Enqueue(pathRequest);
-        instance.TryProcessNext();
-
-        ThreadStart threadStart = delegate
+        if (resultQueue.Count > 0)
         {
-            instance.pathFinding.FindPath(startPos, targetPos, callback);
-        };
-    }
-
-    void TryProcessNext()
-    {
-        if (!isProcessing &&instance.pathRequestQueue.Count > 0)
-        {
-            currentRequest = pathRequestQueue.Dequeue();
-            isProcessing = true;
-            instance.pathFinding.FindPath(currentRequest.startPos, currentRequest.targetPos, FinishProcessingFindPath);
+            lock (resultQueue)
+            {
+                int itemCount = resultQueue.Count;
+                while (itemCount-- > 0)
+                {
+                    PathResult result = resultQueue.Dequeue();
+                    result.callback(result.success, result.path);
+                }
+            }
         }
     }
 
-    void FinishProcessingFindPath(bool success, Vector3[] waypoints)
+    public static void RequestPathFind(PathRequest request)
     {
-        isProcessing = false;
-        currentRequest.callback(success, waypoints);
-        TryProcessNext();
+        ThreadStart threadStart = delegate
+        {
+            instance.pathFinding.FindPath(request, instance.FinishProcessingFindPath);
+        };
+
+        threadStart.Invoke();
+    }
+
+    public void FinishProcessingFindPath(PathResult result)
+    {
+        lock (resultQueue)
+        {
+            resultQueue.Enqueue(result);
+        }
     }
 }
