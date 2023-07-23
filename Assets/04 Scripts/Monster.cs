@@ -3,7 +3,6 @@ using UnityEngine;
 
 enum MonsterBehaviourType { FollowTarget, Attack };
 
-[RequireComponent(typeof(Collider))]
 public class Monster : Character
 {
     [Header("Global")]

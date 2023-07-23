@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 5218316973797395251}
   - component: {fileID: 5218316973797395253}
   - component: {fileID: 5218316973797395254}
+  - component: {fileID: 5427483639275787282}
+  - component: {fileID: 2100085984922674452}
   m_Layer: 7
   m_Name: Enemy A
   m_TagString: Untagged
@@ -60,7 +62,7 @@ BoxCollider:
   m_GameObject: {fileID: 5540994446332122020}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 3, y: 3, z: 3}
   m_Center: {x: 0, y: 1.5, z: 0}
@@ -71,12 +73,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5540994446332122020}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82c4746ba3ecbaf4c9e66d593e9c449c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  max_hp: 2
+  maxhp: 0
   hp: 0
   atk: 1
   speed: 5
@@ -85,9 +87,35 @@ MonoBehaviour:
   dyingTime: 0
   dieParticle: {fileID: 8142776624367745201, guid: 29d189a665ef6a84aa3ab9962480dc1d, type: 3}
   treasureBoxPrefab: {fileID: 6239551128107065773, guid: 33568db12c505c74481400b2f12c1941, type: 3}
-  timingAttack: 1
-  attackCoolTime: 2
-  attackDistance: 1
+--- !u!136 &5427483639275787282
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5540994446332122020}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2
+  m_Height: 4.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.4, z: 0}
+--- !u!114 &2100085984922674452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5540994446332122020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09cfa24f301ba4b8fb2d1398f596d2e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tag: 
+  target: {fileID: 0}
+  speed: 30
 --- !u!1001 &820189778740138663
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2,7 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+public abstract class PoolObject : MonoBehaviour
+{
+    [HideInInspector] public new string tag;
+    public ObjectPool pooler;
+    public abstract void OnObjectSpawn();
+}
+
+public class Unit : PoolObject
 {
     public Transform target;
     public float speed = 1f;
@@ -10,10 +17,13 @@ public class Unit : MonoBehaviour
     bool success = false;
     new Rigidbody rigidbody;
     float updateInterval = .3f;
+
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        target = GameObject.Find("Player").transform;
+
         StartCoroutine("UpdatePath");
     }
 
@@ -50,13 +60,15 @@ public class Unit : MonoBehaviour
 
     IEnumerator FollowTarget()
     {
-        for(int i=0; i<path.Length; i++)
+        for(int i=1; i<path.Length; i++)
         {
             var waypoint = path[i];
+            transform.LookAt(waypoint);
             while(transform.position != waypoint)
             {
                 waypoint.y = transform.position.y;
-                rigidbody.velocity = (waypoint - transform.position).normalized * speed;
+                //rigidbody.velocity = (waypoint - transform.position).normalized * speed;
+                transform.position = Vector3.MoveTowards(transform.position, waypoint, speed * Time.deltaTime);
                 yield return null;
             }
         }
@@ -86,5 +98,15 @@ public class Unit : MonoBehaviour
                 }
             }
         }
+    }
+
+    void OnDestroy()
+    {
+        pooler.ReturnObject(tag, this);
+    }
+
+    public override void OnObjectSpawn()
+    {
+        //effect(particle)
     }
 }
