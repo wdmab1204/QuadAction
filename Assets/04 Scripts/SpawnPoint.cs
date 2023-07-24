@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
-    const float spawnInterval = 0.7f;
+    public float spawnInterval = 0.7f;
+    public string tag;
     int count = 20;
     
     private void Start()
@@ -16,7 +17,7 @@ public class SpawnPoint : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(spawnInterval);
-            var obj = ObjectPoolingRequest.SpawnObject("EnemyA");
+            var obj = ObjectPoolingRequest.SpawnObject(tag);
             obj.transform.position = this.transform.position;
         }
     }

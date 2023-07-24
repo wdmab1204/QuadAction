@@ -115,7 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tag: 
   target: {fileID: 0}
-  speed: 30
+  speed: 15
 --- !u!1001 &820189778740138663
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -8476253432928909062}
   - component: {fileID: 297508044268605652}
   - component: {fileID: 5119853697240361821}
+  - component: {fileID: 4432165613491933373}
   m_Layer: 0
   m_Name: Enemy B
   m_TagString: Untagged
@@ -71,12 +72,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9187343066701982198}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82c4746ba3ecbaf4c9e66d593e9c449c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  max_hp: 2
+  maxhp: 0
   hp: 0
   atk: 1
   speed: 5
@@ -85,6 +86,21 @@ MonoBehaviour:
   dyingTime: 0
   dieParticle: {fileID: 8142776624367745201, guid: 29d189a665ef6a84aa3ab9962480dc1d, type: 3}
   treasureBoxPrefab: {fileID: 6239551128107065773, guid: 33568db12c505c74481400b2f12c1941, type: 3}
+--- !u!114 &4432165613491933373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9187343066701982198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09cfa24f301ba4b8fb2d1398f596d2e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tag: 
+  target: {fileID: 0}
+  speed: 25
 --- !u!1001 &4106025580532918517
 PrefabInstance:
   m_ObjectHideFlags: 0

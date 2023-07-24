@@ -31,7 +31,7 @@ public class ObjectPool
             tagToQueuedictionary[pools[i].tag] = new Queue<PoolObject>();
             for (int j = 0; j < pools[i].size; j++)
             {
-                var obj = InstantiateObject(pools[i].prefab.gameObject).GetComponent<PoolObject>();
+                var obj = InstantiateObject(pools[i].prefab.gameObject, pools[i].tag).GetComponent<PoolObject>();
                 AddToPool(pools[i].tag, obj);
             }
         }
@@ -43,11 +43,8 @@ public class ObjectPool
     {
         Queue<PoolObject> queue = tagToQueuedictionary[tag];
         PoolObject obj = null;
-        if (queue.Count == 0) obj = InstantiateObject(tagToPoolDictionary[tag].prefab.gameObject);
+        if (queue.Count == 0) obj = InstantiateObject(tagToPoolDictionary[tag].prefab.gameObject, tag);
         else obj = queue.Dequeue(); obj.gameObject.SetActive(true);
-
-        obj.pooler = this;
-        obj.tag = tag;
 
         obj.OnObjectSpawn();
 
@@ -77,9 +74,11 @@ public class ObjectPool
         return count;
     }
 
-    private PoolObject InstantiateObject(GameObject prefab)
+    private PoolObject InstantiateObject(GameObject prefab, string tag)
     {
         var obj = Object.Instantiate(prefab, parentTransform).GetComponent<PoolObject>();
+        obj.pooler = this;
+        obj.tag = tag;
         obj.gameObject.SetActive(false);
         return obj;
     }

@@ -70,10 +70,9 @@ public class PriorityQueue<T> where T : IComparable<T>
 
     public bool Contains(T item)
     {
-        for (int i = 0; i < size; i++)
+        if (size != 0)
         {
-            if (heap[i].Equals(item))
-                return true;
+            return Array.IndexOf(heap, item, 0, size) >= 0;
         }
 
         return false;

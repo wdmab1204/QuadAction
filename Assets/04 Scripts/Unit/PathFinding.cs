@@ -19,15 +19,11 @@ public class PathFinding : MonoBehaviour
         Node startNode = grid.GetNodeFromWorldPoint(request.startPos);
         Node targetNode = grid.GetNodeFromWorldPoint(request.targetPos);
 
-        if (priorityQueue == null)
-            priorityQueue = new PriorityQueue<Node>(grid.MaxSize);
-        else
-            priorityQueue.Clear();
+        if (priorityQueue == null) priorityQueue = new PriorityQueue<Node>(grid.MaxSize);
+        else priorityQueue.Clear();
 
-        if (closedSet == null)
-            closedSet = new HashSet<Node>();
-        else
-            closedSet.Clear();
+        if (closedSet == null) closedSet = new HashSet<Node>();
+        else closedSet.Clear();
 
 
         bool success = false;

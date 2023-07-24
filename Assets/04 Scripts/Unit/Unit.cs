@@ -60,15 +60,15 @@ public class Unit : PoolObject
 
     IEnumerator FollowTarget()
     {
-        for(int i=1; i<path.Length; i++)
+        for(int i=0; i<path.Length; i++)
         {
             var waypoint = path[i];
             transform.LookAt(waypoint);
             while(transform.position != waypoint)
             {
                 waypoint.y = transform.position.y;
-                //rigidbody.velocity = (waypoint - transform.position).normalized * speed;
-                transform.position = Vector3.MoveTowards(transform.position, waypoint, speed * Time.deltaTime);
+                rigidbody.velocity = (waypoint - transform.position).normalized * speed;
+                //transform.position = Vector3.MoveTowards(transform.position, waypoint, speed * Time.deltaTime);
                 yield return null;
             }
         }
@@ -107,6 +107,6 @@ public class Unit : PoolObject
 
     public override void OnObjectSpawn()
     {
-        //effect(particle)
+        //TODO play a particle
     }
 }
